@@ -1,36 +1,19 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Press & Public Freedom Organization
 
-## Getting Started
+Project to create forum with NextJS, current tech stacks that I used are :
 
-First, run the development server:
+## Database & Back-End
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+I just awfully get used to Drizzle so once again I'm using Drizzle here. It's been a long time for me that I've been aiming to use Supabase and finally this is my first major project using supabase.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Drizzle-ORM
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+I've never tried Prisma but Drizzle just so addictive, it's like Coke but I'll try Prisma sooner or later anyway.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Supabase
 
-## Learn More
+I've been begging to my ADHD brain to try Supabase and Finally I got the chance. The first impression is it's great and sucks at the same time.
 
-To learn more about Next.js, take a look at the following resources:
+I just get used to setting up and building things from library not structured and rigid things Supabase offer but damn, that's the second impression. I usually needs hours to setup auth now it's faster than NVIDIA make their GPUs more expensive every years.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## UI & Front-End
