@@ -16,7 +16,14 @@ export default function RootLayout({
       <body
         className={`${interFont.variable} ${geistMonoFont.variable} antialiased`}
       >
+        {/* NavBar */}
+        <nav></nav>
+
+        {/* Body */}
         {children}
+
+        {/* Footer */}
+        <footer></footer>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-export function generateMetadata(revision: Metadata): Metadata {
+export function generateMetadata(revision?: Metadata): Metadata {
   const app_url = process.env.APP_URL || "https://ppfo.dimasfahmi.pro";
   const og_image =
     process.env.OG_IMAGE || "https://ppfo.dimasfahmi.pro/og-image.png";
