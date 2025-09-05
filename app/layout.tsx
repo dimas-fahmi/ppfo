@@ -1,7 +1,7 @@
 "use client";
 
 import { geistMonoFont, interFont } from "@/src/ui/fonts";
-import "./globals.css";
+import "@/src/ui/css/globals.tailwind.css";
 
 export default function RootLayout({
   children,
