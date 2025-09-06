@@ -3,7 +3,6 @@
 import { geistMonoFont, interFont } from "@/src/ui/fonts";
 import "@/src/ui/css/globals.tailwind.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import NavBar from "@/src/ui/components/NavBar";
 import Sidebar from "@/src/ui/components/NavBar/Sidebar";
 
 export default function RootLayout({
@@ -23,14 +22,7 @@ export default function RootLayout({
         className={`${interFont.variable} ${geistMonoFont.variable} antialiased`}
       >
         <QueryClientProvider client={queryClient}>
-          {/* NavBar */}
-          <NavBar />
-
-          {/* Body */}
           {children}
-
-          {/* Footer */}
-          <footer></footer>
 
           {/* Overlays */}
           <Sidebar />
