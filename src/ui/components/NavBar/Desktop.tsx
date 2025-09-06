@@ -23,9 +23,9 @@ const NavBar_Desktop = () => {
       <div className="grid grid-cols-3 pt-4 px-4">
         {/* Socials */}
         <div className="flex gap-4 items-center">
-          <BiLogoFacebookCircle className="w-6 h-6" />
-          <BiLogoTwitter className="w-6 h-6" />
-          <BiLogoInstagramAlt className="w-6 h-6" />
+          <BiLogoFacebookCircle className="w-5 h-5" />
+          <BiLogoTwitter className="w-5 h-5" />
+          <BiLogoInstagramAlt className="w-5 h-5" />
         </div>
 
         {/* Region */}
@@ -53,8 +53,8 @@ const NavBar_Desktop = () => {
       {/* Midsec */}
       <div className="flex gap-6">
         {/* Brand */}
-        <div className="flex items-center justify-start ps-4">
-          <Link href={"/ "}>
+        <div className="flex items-center justify-start ps-4 pb-2">
+          <Link href={"/"}>
             <Image
               width={180}
               height={20}
