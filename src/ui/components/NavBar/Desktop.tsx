@@ -10,6 +10,7 @@ import {
   BiLogoTwitter,
 } from "react-icons/bi";
 import { usePathname } from "next/navigation";
+import { Menu } from "lucide-react";
 
 const NavBar_Desktop = () => {
   const pathname = usePathname();
@@ -81,10 +82,15 @@ const NavBar_Desktop = () => {
         </div>
 
         {/* Quick Headline */}
-        <div className="hidden lg:flex justify-end flex-grow items-center">
-          <p className="max-w-50 text-sm text-right text-accent">
+        <div className="flex justify-end flex-grow items-center">
+          <p className="hidden lg:flex max-w-50 text-sm text-right text-accent">
             Gaza: Israeli School Strikes Magnify Civilian Peril
           </p>
+
+          {/* Hamburger Button */}
+          <button>
+            <Menu size={30} />
+          </button>
         </div>
       </div>
     </nav>
