@@ -12,7 +12,7 @@ const Sidebar = () => {
       transition={{
         duration: 0.3,
       }}
-      className="fixed left-0 top-0 bottom-0 p-4 bg-secondary text-secondary-foreground w-screen md:w-86 z-40"
+      className="fixed left-0 top-0 bottom-0 p-4 bg-secondary text-secondary-foreground w-[320px]"
     >
       Sidebar
     </motion.div>

@@ -10,12 +10,15 @@ import {
   BiLogoTwitter,
 } from "react-icons/bi";
 import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
+import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { useSidebarStore } from "@/src/lib/stores/sidebar";
 
 const NavBar_Desktop = () => {
   const pathname = usePathname();
   const toggleSidebar = useSidebarStore((state) => state.toggleOpen);
+  const sidebarOpenState = useSidebarStore((state) => state.open);
+
+  const ToggleIcon = sidebarOpenState ? PanelLeftClose : PanelLeftOpen;
 
   return (
     <nav className="hidden md:flex layout-width flex-col border-b space-y-4">
@@ -51,9 +54,9 @@ const NavBar_Desktop = () => {
       </div>
 
       {/* Midsec */}
-      <div className="flex gap-6">
+      <div className="flex">
         {/* Brand */}
-        <div className="flex items-center justify-start ps-4 pb-2">
+        <div className="flex flex-1 items-center pe-16 justify-start ps-4 pb-2">
           <Link href={"/"}>
             <Image
               width={180}
@@ -66,7 +69,7 @@ const NavBar_Desktop = () => {
         </div>
 
         {/* Navigation */}
-        <div className="flex">
+        <div className="flex flex-2 shrink-0 justify-center">
           <ul className="flex gap-4 uppercase md:text-xs lg:text-sm">
             {navigations.map((nav, index) => (
               <li key={index}>
@@ -84,17 +87,13 @@ const NavBar_Desktop = () => {
         </div>
 
         {/* Quick Headline */}
-        <div className="flex justify-end flex-grow items-center space-x-4 pe-4">
-          <p className="hidden lg:flex max-w-50 text-sm text-right text-accent">
-            Gaza: Israeli School Strikes Magnify Civilian Peril
-          </p>
-
+        <div className="flex justify-end flex-1 shrink items-center space-x-4 pe-4">
           {/* Hamburger Button */}
           <button
             onClick={toggleSidebar}
             className="cursor-pointer active:scale-95 transition-all duration-300"
           >
-            <Menu size={30} />
+            <ToggleIcon size={24} />
           </button>
         </div>
       </div>
