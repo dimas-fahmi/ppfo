@@ -2,12 +2,17 @@
 
 import { geistMonoFont, interFont } from "@/src/ui/fonts";
 import "@/src/ui/css/globals.tailwind.css";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import NavBar from "@/src/ui/components/NavBar";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Create a client
+  const queryClient = new QueryClient();
+
   return (
     <html lang="en">
       <head>
@@ -16,14 +21,16 @@ export default function RootLayout({
       <body
         className={`${interFont.variable} ${geistMonoFont.variable} antialiased`}
       >
-        {/* NavBar */}
-        <nav></nav>
+        <QueryClientProvider client={queryClient}>
+          {/* NavBar */}
+          <NavBar />
 
-        {/* Body */}
-        {children}
+          {/* Body */}
+          {children}
 
-        {/* Footer */}
-        <footer></footer>
+          {/* Footer */}
+          <footer></footer>
+        </QueryClientProvider>
       </body>
     </html>
   );

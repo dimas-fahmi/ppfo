@@ -15,10 +15,10 @@
   --secondary-foreground: oklch(0.208 0.042 265.755);
   --muted: oklch(0.968 0.007 247.896);
   --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
+  --accent: oklch(61.518% 0.2109 256.116);
   --accent-foreground: oklch(0.208 0.042 265.755);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.929 0.013 255.508);
+  --border: oklch(60.999% 0.00007 271.152);
   --input: oklch(0.929 0.013 255.508);
   --ring: oklch(0.704 0.04 256.788);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -82,5 +82,39 @@
   }
   body {
     @apply bg-background text-foreground font-sans;
+  }
+
+  .layout-width {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .underline-effect {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .underline-effect::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  .underline-effect:hover::after {
+    transform: scaleX(1);
+  }
+
+  .underline-effect.underline-effect-active::after {
+    transform: scaleX(1);
+    color: var(--accent);
   }
 }

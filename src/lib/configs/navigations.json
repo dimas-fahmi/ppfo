@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Feeds",
+    "href": "/"
+  },
+  {
+    "title": "News",
+    "href": "/news"
+  },
+  {
+    "title": "Forums",
+    "href": "/forums"
+  },
+
+  {
+    "title": "Channels",
+    "href": "/channels"
+  },
+  {
+    "title": "Journalism",
+    "href": "/journalism"
+  },
+  {
+    "title": "Trusted",
+    "href": "/channels"
+  }
+]
