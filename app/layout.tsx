@@ -4,6 +4,7 @@ import { geistMonoFont, interFont } from "@/src/ui/fonts";
 import "@/src/ui/css/globals.tailwind.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import NavBar from "@/src/ui/components/NavBar";
+import Sidebar from "@/src/ui/components/NavBar/Sidebar";
 
 export default function RootLayout({
   children,
@@ -30,6 +31,9 @@ export default function RootLayout({
 
           {/* Footer */}
           <footer></footer>
+
+          {/* Overlays */}
+          <Sidebar />
         </QueryClientProvider>
       </body>
     </html>

@@ -11,9 +11,11 @@ import {
 } from "react-icons/bi";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
+import { useSidebarStore } from "@/src/lib/stores/sidebar";
 
 const NavBar_Desktop = () => {
   const pathname = usePathname();
+  const toggleSidebar = useSidebarStore((state) => state.toggleOpen);
 
   return (
     <nav className="hidden md:flex layout-width flex-col border-b space-y-4">
@@ -65,7 +67,7 @@ const NavBar_Desktop = () => {
 
         {/* Navigation */}
         <div className="flex">
-          <ul className="flex gap-4 uppercase text-sm">
+          <ul className="flex gap-4 uppercase md:text-xs lg:text-sm">
             {navigations.map((nav, index) => (
               <li key={index}>
                 <Link
@@ -82,13 +84,16 @@ const NavBar_Desktop = () => {
         </div>
 
         {/* Quick Headline */}
-        <div className="flex justify-end flex-grow items-center">
+        <div className="flex justify-end flex-grow items-center space-x-4 pe-4">
           <p className="hidden lg:flex max-w-50 text-sm text-right text-accent">
             Gaza: Israeli School Strikes Magnify Civilian Peril
           </p>
 
           {/* Hamburger Button */}
-          <button>
+          <button
+            onClick={toggleSidebar}
+            className="cursor-pointer active:scale-95 transition-all duration-300"
+          >
             <Menu size={30} />
           </button>
         </div>

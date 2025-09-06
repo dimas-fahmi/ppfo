@@ -4,5 +4,5 @@ import { Metadata } from "next";
 export const metadata: Metadata = generateMetadata();
 
 export default function Home() {
-  return <div></div>;
+  return <div className="min-h-[2000px]"></div>;
 }
