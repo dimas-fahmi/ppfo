@@ -12,6 +12,7 @@ import {
 import { usePathname } from "next/navigation";
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { useSidebarStore } from "@/src/lib/stores/sidebar";
+import { motion } from "motion/react";
 
 const NavBar_Desktop = () => {
   const pathname = usePathname();
@@ -21,37 +22,46 @@ const NavBar_Desktop = () => {
   const ToggleIcon = sidebarOpenState ? PanelLeftClose : PanelLeftOpen;
 
   return (
-    <nav className="hidden md:flex layout-width flex-col border-b space-y-4">
+    <nav className="hidden md:flex layout-width flex-col border-b">
       {/* Uptop */}
-      <div className="grid grid-cols-3 pt-4 px-4">
-        {/* Socials */}
-        <div className="flex gap-4 items-center">
-          <BiLogoFacebookCircle className="w-5 h-5" />
-          <BiLogoTwitter className="w-5 h-5" />
-          <BiLogoInstagramAlt className="w-5 h-5" />
-        </div>
+      <motion.div
+        initial={{ height: "auto" }}
+        animate={sidebarOpenState ? { height: 0 } : { height: "auto" }}
+        transition={{
+          duration: 0.3,
+        }}
+        className="overflow-hidden"
+      >
+        <div className="grid grid-cols-3 p-2 px-4">
+          {/* Socials */}
+          <div className="flex gap-4 items-center">
+            <BiLogoFacebookCircle className="w-5 h-5" />
+            <BiLogoTwitter className="w-5 h-5" />
+            <BiLogoInstagramAlt className="w-5 h-5" />
+          </div>
 
-        {/* Region */}
-        <div className="flex items-center justify-center">
-          <ul className="flex gap-4 text-xs">
-            <li>International</li>
-            <li>Asia</li>
-            <li>Europe</li>
-            <li>America</li>
-            <li>More</li>
-          </ul>
-        </div>
+          {/* Region */}
+          <div className="flex items-center justify-center">
+            <ul className="flex gap-4 text-xs">
+              <li>International</li>
+              <li>Asia</li>
+              <li>Europe</li>
+              <li>America</li>
+              <li>More</li>
+            </ul>
+          </div>
 
-        {/* CTA */}
-        <div className="flex justify-end gap-2">
-          <button className="px-4 py-1 text-sm rounded-md border">
-            Write Article
-          </button>
-          <button className="px-4 py-1 text-sm rounded-md border bg-primary text-primary-foreground">
-            Sign In
-          </button>
+          {/* CTA */}
+          <div className="flex justify-end gap-2">
+            <button className="px-4 py-1 text-sm rounded-md border">
+              Write Article
+            </button>
+            <button className="px-4 py-1 text-sm rounded-md border bg-primary text-primary-foreground">
+              Sign In
+            </button>
+          </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Midsec */}
       <div className="flex">

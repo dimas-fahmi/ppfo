@@ -118,3 +118,7 @@
     color: var(--accent);
   }
 }
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
