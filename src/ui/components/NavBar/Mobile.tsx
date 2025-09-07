@@ -8,7 +8,7 @@ const NavBar_Mobile = () => {
   const setOpen = useSidebarStore((state) => state.setOpen);
 
   return (
-    <nav className="flex md:hidden justify-between p-4 border-b">
+    <nav className="flex md:hidden justify-between px-4 py-2 border-b">
       {/* Hamburger Button */}
       <button
         onClick={() => {

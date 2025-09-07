@@ -1,6 +1,6 @@
 "use client";
 
-import { geistMonoFont, interFont } from "@/src/ui/fonts";
+import { geistMonoFont, interFont, oswaldFont } from "@/src/ui/fonts";
 import "@/src/ui/css/globals.tailwind.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Sidebar from "@/src/ui/components/NavBar/Sidebar";
@@ -25,7 +25,9 @@ export default function RootLayout({
       <body
         className={`${sidebarOpenState ? "ms-[320px]" : ""} ${
           interFont.variable
-        } ${geistMonoFont.variable} antialiased duration-300 transition-all`}
+        } ${geistMonoFont.variable} ${
+          oswaldFont.variable
+        } antialiased duration-300 transition-all`}
       >
         <QueryClientProvider client={queryClient}>
           {children}

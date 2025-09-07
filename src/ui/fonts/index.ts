@@ -1,4 +1,4 @@
-import { Geist_Mono, Inter } from "next/font/google";
+import { Geist_Mono, Inter, Oswald } from "next/font/google";
 
 export const interFont = Inter({
   variable: "--font-inter",
@@ -10,4 +10,10 @@ export const interFont = Inter({
 export const geistMonoFont = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+export const oswaldFont = Oswald({
+  variable: "--font-oswald",
+  subsets: ["latin"],
+  display: "swap",
 });
