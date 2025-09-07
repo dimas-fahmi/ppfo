@@ -30,6 +30,7 @@ const Dropdown = ({ title, defaultOpen = false, children }: DropdownProps) => {
             className={`${
               !open ? "-rotate-z-180" : "rotate-z-0"
             } transition-all duration-300 opacity-75`}
+            suppressHydrationWarning
           />
         </span>
       </button>
