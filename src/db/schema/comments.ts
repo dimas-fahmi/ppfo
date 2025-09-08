@@ -9,6 +9,8 @@ import { threads } from "./threads";
 import { movements } from "./movements";
 import { sql } from "drizzle-orm";
 import { authUsers } from "drizzle-orm/supabase";
+import { events } from "./events";
+import { figures } from "./figures";
 
 export const comments = postSchema
   .table(
@@ -22,6 +24,8 @@ export const comments = postSchema
       article: uuid("article_id").references(() => articles.id),
       thread: uuid("thread_id").references(() => threads.id),
       movement: uuid("movement_id").references(() => movements.id),
+      event: uuid("event_id").references(() => events.id),
+      figure: uuid("figure_id").references(() => figures.id),
 
       // Metadata
       author: uuid("author")
@@ -47,8 +51,8 @@ export const comments = postSchema
     (t) => [
       // Check
       check(
-        "at_least_one",
-        sql`${t.article} IS NOT NULL OR ${t.movement} IS NOT NULL OR ${t.thread} IS NOT NULL`
+        "CHECK_POST_COMMENTS_TARGET_AT_LEAST_ONE",
+        sql`${t.article} IS NOT NULL OR ${t.movement} IS NOT NULL OR ${t.thread} IS NOT NULL OR ${t.event} IS NOT NULL OR ${t.figure} IS NOT NULL`
       ),
 
       // Foreign Key

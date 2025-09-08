@@ -16,6 +16,17 @@ export const moderationLevel = [
   "scheduled",
 ] as const;
 
+export const figureType = [
+  "activist",
+  "journalist",
+  "perpetrator",
+  "alleged",
+  "criminal",
+  "victim",
+  "witness",
+  "unrelated",
+] as const;
+
 // Policy Presets
 export const policy_AnyoneCanRead = pgPolicy("Anyone can read", {
   as: "permissive",
