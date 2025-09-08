@@ -11,7 +11,7 @@ import {
 import {
   moderationLevel,
   policy_AnyoneCanRead,
-  policy_OnlyServiceCanUpdate,
+  policy_ServiceRoleTotalControl,
   postSchema,
 } from ".";
 import { authUsers } from "drizzle-orm/supabase";
@@ -79,7 +79,7 @@ export const movements = postSchema
     (t) => [
       // Policy
       policy_AnyoneCanRead,
-      policy_OnlyServiceCanUpdate,
+      policy_ServiceRoleTotalControl,
 
       // Indexes
       uniqueIndex("UIDX_POST_MOVEMENTS_SLUG").on(t.slug),
@@ -117,7 +117,7 @@ export const movementMemberships = postSchema
 
       // policy
       policy_AnyoneCanRead,
-      policy_OnlyServiceCanUpdate,
+      policy_ServiceRoleTotalControl,
 
       // Indexes
       index("IDX_POST_MOVEMENT_MEMBERSHIPS_USER_ID").on(t.userId),

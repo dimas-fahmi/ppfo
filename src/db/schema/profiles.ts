@@ -1,8 +1,8 @@
 import { index, text, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 import { authUsers } from "drizzle-orm/supabase";
 import {
-  policy_AnyoneCanRead, // Preset Policy
-  policy_OnlyServiceCanUpdate, // Preset Policy
+  policy_AnyoneCanRead,
+  policy_ServiceRoleTotalControl, // Preset Policy
   userManagement, // PG Schema
 } from ".";
 
@@ -22,8 +22,8 @@ export const profiles = userManagement
     },
     (t) => [
       // Policy
-      policy_OnlyServiceCanUpdate,
       policy_AnyoneCanRead,
+      policy_ServiceRoleTotalControl,
 
       // Indexes
       index("IDX_USER_MANAGEMENT_PROFILES_FULL_NAME").on(t.fullName),

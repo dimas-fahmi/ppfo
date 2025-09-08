@@ -1,7 +1,7 @@
 import { index, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import {
   policy_AnyoneCanRead,
-  policy_OnlyServiceCanUpdate,
+  policy_ServiceRoleTotalControl,
   postSchema,
 } from ".";
 import { organizations } from "./organizations";
@@ -30,15 +30,15 @@ export const channels = postSchema
       deletedAt: timestamp("deleted_at", { withTimezone: true }),
     },
     (t) => [
-      // Policy
-      policy_AnyoneCanRead,
-      policy_OnlyServiceCanUpdate,
-
       // Indexes
       index("IDX_POST_CHANNEL_CREATED_BY_ORGANIZATION").on(
         t.createdByOrganization
       ),
       index("IDX_POST_CHANNEL_NAME").on(t.name),
+
+      // Policy
+      policy_AnyoneCanRead,
+      policy_ServiceRoleTotalControl,
     ]
   )
   .enableRLS();

@@ -2,7 +2,7 @@ import { index, primaryKey, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import {
   organizationSchema,
   policy_AnyoneCanRead,
-  policy_OnlyServiceCanUpdate,
+  policy_ServiceRoleTotalControl,
 } from ".";
 import { authUsers } from "drizzle-orm/supabase";
 
@@ -32,7 +32,7 @@ export const organizations = organizationSchema
     (t) => [
       // Policy
       policy_AnyoneCanRead,
-      policy_OnlyServiceCanUpdate,
+      policy_ServiceRoleTotalControl,
 
       // Indexes
       index("IDX_ORGANIZATION_ORGANIZATIONS_CREATED_BY").on(t.createdBy),
@@ -86,7 +86,7 @@ export const organizationMemberships = organizationSchema
 
       // Policy
       policy_AnyoneCanRead,
-      policy_OnlyServiceCanUpdate,
+      policy_ServiceRoleTotalControl,
     ]
   )
   .enableRLS();
