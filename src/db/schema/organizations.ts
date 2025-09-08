@@ -35,7 +35,7 @@ export const organizations = organizationSchema
       createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 
       // Soft-Delete
-      deletedAt: timestamp("deletet_at", { withTimezone: true }),
+      deletedAt: timestamp("deleted_at", { withTimezone: true }),
     },
     (t) => [
       // Policy
