@@ -63,7 +63,7 @@ export const events = postSchema
       }).notNull(),
       casualties_death: integer("casualties_death"),
       casualties_injured: integer("casualties_injured"),
-      relatedOrganization: json("relatedOrganizations"),
+      relatedOrganization: json("related_organizations"),
       images: json("images"),
       videos: json("videos"),
       tags: json("tags"),
@@ -134,7 +134,7 @@ export const eventActors = postSchema
       createdAt: timestamp("created_at", { withTimezone: true })
         .defaultNow()
         .notNull(),
-      createdBy: timestamp("created_by")
+      createdBy: uuid("created_by")
         .references(() => authUsers.id)
         .notNull(),
       description: text("description"),
