@@ -5,6 +5,7 @@ import { movements, movementMemberships } from "./movements";
 import { organizations, organizationMemberships } from "./organizations";
 import { profiles } from "./profiles";
 import { threads } from "./threads";
+import { comments } from "./comments";
 
 // Export as batch
 const schema = {
@@ -16,6 +17,7 @@ const schema = {
   organizationMemberships,
   profiles,
   threads,
+  comments,
 };
 
 export default schema;
