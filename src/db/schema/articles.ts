@@ -2,7 +2,6 @@ import {
   index,
   json,
   jsonb,
-  pgSchema,
   text,
   timestamp,
   uniqueIndex,
@@ -17,9 +16,8 @@ import {
   moderationLevel,
   policy_AnyoneCanRead,
   policy_ServiceRoleTotalControl,
+  postSchema,
 } from "./configs";
-
-const postSchema = pgSchema("post_schema");
 
 export const articles = postSchema
   .table(

@@ -2,7 +2,6 @@ import {
   index,
   json,
   jsonb,
-  pgSchema,
   text,
   timestamp,
   uniqueIndex,
@@ -16,9 +15,8 @@ import {
   moderationLevel,
   policy_AnyoneCanRead,
   policy_ServiceRoleTotalControl,
+  postSchema,
 } from "./configs";
-
-export const postSchema = pgSchema("post_schema");
 
 export const threads = postSchema
   .table(
