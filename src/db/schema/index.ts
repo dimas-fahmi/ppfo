@@ -6,18 +6,40 @@ import { organizations, organizationMemberships } from "./organizations";
 import { profiles } from "./profiles";
 import { threads } from "./threads";
 import { comments } from "./comments";
+import { figures } from "./figures";
+import { events, eventActors } from "./events";
 
 // Export as batch
 const schema = {
+  // Articles
   articles,
+
+  // Channels
   channels,
+
+  // Comments
+  comments,
+
+  // Events
+  events,
+  eventActors,
+
+  // Figures
+  figures,
+
+  // Movements
   movements,
   movementMemberships,
+
+  // Organizations
   organizations,
   organizationMemberships,
+
+  // Profiles
   profiles,
+
+  // Threads
   threads,
-  comments,
 };
 
 export default schema;
