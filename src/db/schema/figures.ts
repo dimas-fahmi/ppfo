@@ -69,7 +69,7 @@ export const figures = postSchema
       evilScore: integer("evil_score").notNull().default(0),
 
       // Moderation
-      moderatedBy: text("moderated_by").references(() => authUsers.id),
+      moderatedBy: uuid("moderated_by").references(() => authUsers.id),
       moderationMessage: text("moderation_message"),
 
       // Soft Deletion
