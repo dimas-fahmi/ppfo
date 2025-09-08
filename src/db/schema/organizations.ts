@@ -59,7 +59,7 @@ export const organizationMemberships = organizationSchema
       })
         .notNull()
         .default("member"),
-      membershipStatus: text("membershipStatus", {
+      membershipStatus: text("membership_status", {
         enum: ["active", "suspended", "approval"],
       }),
       userMessage: text("user_message"),
