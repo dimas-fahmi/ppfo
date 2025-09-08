@@ -1,10 +1,18 @@
-import { index, primaryKey, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import {
-  organizationSchema,
+  index,
+  pgSchema,
+  primaryKey,
+  text,
+  timestamp,
+  uuid,
+} from "drizzle-orm/pg-core";
+import { authUsers } from "drizzle-orm/supabase";
+import {
   policy_AnyoneCanRead,
   policy_ServiceRoleTotalControl,
-} from ".";
-import { authUsers } from "drizzle-orm/supabase";
+} from "./configs";
+
+const organizationSchema = pgSchema("organization_schema");
 
 export const organizations = organizationSchema
   .table(

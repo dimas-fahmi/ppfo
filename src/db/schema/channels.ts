@@ -1,11 +1,11 @@
-import { index, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { index, pgSchema, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { organizations } from "./organizations";
 import {
   policy_AnyoneCanRead,
   policy_ServiceRoleTotalControl,
-  postSchema,
-} from ".";
-import { organizations } from "./organizations";
+} from "./configs";
 
+const postSchema = pgSchema("post_schema");
 export const channels = postSchema
   .table(
     "channels",

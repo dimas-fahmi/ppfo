@@ -2,21 +2,24 @@ import {
   index,
   json,
   jsonb,
+  pgSchema,
   text,
   timestamp,
   uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
-import {
-  moderationLevel,
-  policy_AnyoneCanRead,
-  policy_ServiceRoleTotalControl,
-  postSchema,
-} from ".";
+
 import { authUsers } from "drizzle-orm/supabase";
 import { organizations } from "./organizations";
 import { channels } from "./channels";
 import { sql } from "drizzle-orm";
+import {
+  moderationLevel,
+  policy_AnyoneCanRead,
+  policy_ServiceRoleTotalControl,
+} from "./configs";
+
+const postSchema = pgSchema("post_schema");
 
 export const articles = postSchema
   .table(

@@ -1,10 +1,11 @@
-import { index, text, uniqueIndex, uuid } from "drizzle-orm/pg-core";
+import { index, pgSchema, text, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 import { authUsers } from "drizzle-orm/supabase";
 import {
   policy_AnyoneCanRead,
-  policy_ServiceRoleTotalControl, // Preset Policy
-  userManagement, // PG Schema
-} from ".";
+  policy_ServiceRoleTotalControl,
+} from "./configs";
+
+const userManagement = pgSchema("user_management");
 
 export const profiles = userManagement
   .table(
