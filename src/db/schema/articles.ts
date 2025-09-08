@@ -2,18 +2,14 @@ import {
   index,
   json,
   jsonb,
+  pgPolicy,
   text,
   timestamp,
   uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
-import {
-  moderationLevel,
-  policy_AnyoneCanRead,
-  policy_OnlyServiceCanUpdate,
-  postSchema,
-} from ".";
-import { authUsers } from "drizzle-orm/supabase";
+import { moderationLevel, postSchema } from ".";
+import { anonRole, authUsers, serviceRole } from "drizzle-orm/supabase";
 import { organizations } from "./organizations";
 import { channels } from "./channels";
 import { sql } from "drizzle-orm";
@@ -74,10 +70,6 @@ export const articles = postSchema
       deletedAt: timestamp("deleted_at", { withTimezone: true }),
     },
     (t) => [
-      // Policy
-      policy_AnyoneCanRead,
-      policy_OnlyServiceCanUpdate,
-
       // Indexes
       uniqueIndex("UIDX_POST_ARTICLES_SLUG").on(t.slug),
       index("IDX_POST_ARTICLES_AUTHOR").on(t.author),
@@ -88,6 +80,23 @@ export const articles = postSchema
         sql`to_tsvector('english', ${t.title})`
       ),
       index("IDX_POST_ARTICLES_CHANNEL").on(t.channel),
+
+      // Policy
+      pgPolicy("Anyone can read", {
+        as: "permissive",
+        to: anonRole,
+        for: "select",
+        using: sql``,
+        withCheck: sql``,
+      }),
+
+      pgPolicy("Total access for Service role", {
+        as: "permissive",
+        to: [serviceRole],
+        for: "all",
+        using: sql``,
+        withCheck: sql``,
+      }),
     ]
   )
   .enableRLS();
