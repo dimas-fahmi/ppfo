@@ -6,6 +6,7 @@ import { anonRole, authenticatedRole, serviceRole } from "drizzle-orm/supabase";
 export const userManagement = pgSchema("user_management");
 export const organizationSchema = pgSchema("organization");
 export const postSchema = pgSchema("post");
+export const historySchema = pgSchema("history");
 
 // Enums
 export const moderationLevel = [
