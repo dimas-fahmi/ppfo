@@ -18,11 +18,11 @@ import {
 import { authUsers } from "drizzle-orm/supabase";
 import { InferSelectModel, sql } from "drizzle-orm";
 
-export type Figure = InferSelectModel<typeof figures>;
+export type SelectFigure = InferSelectModel<typeof figures>;
 
 export type FiguresDiff = Partial<
   Record<
-    keyof Figure,
+    keyof SelectFigure,
     {
       old: unknown;
       new: unknown;
