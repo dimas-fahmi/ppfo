@@ -76,23 +76,6 @@ CREATE TABLE "post"."event_actors" (
 );
 --> statement-breakpoint
 ALTER TABLE "post"."event_actors" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
-CREATE TABLE "history"."event_actors" (
-	"id" uuid PRIMARY KEY NOT NULL,
-	"event_id" uuid NOT NULL,
-	"figure_id" uuid NOT NULL,
-	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"created_by" uuid NOT NULL,
-	"description" text,
-	"type" text NOT NULL,
-	"original_event_id" uuid NOT NULL,
-	"original_figure_id" uuid NOT NULL,
-	"version_number" integer NOT NULL,
-	"change_summary" text NOT NULL,
-	"is_reverted_from" uuid,
-	"diff" jsonb DEFAULT '{}'::jsonb NOT NULL
-);
---> statement-breakpoint
-ALTER TABLE "history"."event_actors" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
 CREATE TABLE "post"."events" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"version_number" integer DEFAULT 0 NOT NULL,
@@ -132,47 +115,6 @@ CREATE TABLE "post"."events" (
 );
 --> statement-breakpoint
 ALTER TABLE "post"."events" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
-CREATE TABLE "history"."events" (
-	"id" uuid PRIMARY KEY NOT NULL,
-	"original_id" uuid NOT NULL,
-	"version_number" integer NOT NULL,
-	"change_summary" text NOT NULL,
-	"is_reverted_from" uuid,
-	"diff" jsonb DEFAULT '{}'::jsonb NOT NULL,
-	"author" uuid NOT NULL,
-	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"status" text DEFAULT 'draft' NOT NULL,
-	"sources" json,
-	"importance" integer DEFAULT 0 NOT NULL,
-	"latitude" text,
-	"longitude" text,
-	"geo" jsonb,
-	"event_type" text NOT NULL,
-	"casualties_death" integer,
-	"casualties_injured" integer,
-	"related_organizations" json,
-	"images" json,
-	"videos" json,
-	"tags" json,
-	"related_event" uuid,
-	"parent_event" uuid,
-	"name" text NOT NULL,
-	"subtitle" text NOT NULL,
-	"overview" text NOT NULL,
-	"keywords" json NOT NULL,
-	"content" jsonb NOT NULL,
-	"thumbnail" text NOT NULL,
-	"country" text NOT NULL,
-	"date_start" timestamp NOT NULL,
-	"date_end" timestamp NOT NULL,
-	"is_date_accurate" text NOT NULL,
-	"is_violation_of_human_rights" text NOT NULL,
-	"moderated_by" uuid,
-	"moderation_message" text,
-	"deleted_at" timestamp with time zone
-);
---> statement-breakpoint
-ALTER TABLE "history"."events" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
 CREATE TABLE "post"."figures" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"author" uuid NOT NULL,
@@ -341,23 +283,11 @@ ALTER TABLE "post"."event_actors" ADD CONSTRAINT "event_actors_event_id_events_i
 ALTER TABLE "post"."event_actors" ADD CONSTRAINT "event_actors_figure_id_figures_id_fk" FOREIGN KEY ("figure_id") REFERENCES "post"."figures"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "post"."event_actors" ADD CONSTRAINT "event_actors_created_by_users_id_fk" FOREIGN KEY ("created_by") REFERENCES "auth"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "post"."event_actors" ADD CONSTRAINT "event_actors_updated_by_users_id_fk" FOREIGN KEY ("updated_by") REFERENCES "auth"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "history"."event_actors" ADD CONSTRAINT "event_actors_event_id_events_id_fk" FOREIGN KEY ("event_id") REFERENCES "post"."events"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "history"."event_actors" ADD CONSTRAINT "event_actors_figure_id_figures_id_fk" FOREIGN KEY ("figure_id") REFERENCES "post"."figures"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "history"."event_actors" ADD CONSTRAINT "event_actors_created_by_users_id_fk" FOREIGN KEY ("created_by") REFERENCES "auth"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "history"."event_actors" ADD CONSTRAINT "event_actors_original_event_id_event_actors_event_id_fk" FOREIGN KEY ("original_event_id") REFERENCES "post"."event_actors"("event_id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "history"."event_actors" ADD CONSTRAINT "event_actors_original_figure_id_event_actors_figure_id_fk" FOREIGN KEY ("original_figure_id") REFERENCES "post"."event_actors"("figure_id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "history"."event_actors" ADD CONSTRAINT "FK_HISTORY_EVENT_ACTORS_IS_REVERTED_FROM" FOREIGN KEY ("is_reverted_from") REFERENCES "history"."event_actors"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "history"."event_actors" ADD CONSTRAINT "FK_HISTORY_EVENT_ACTORS_ORIGINAL" FOREIGN KEY ("original_event_id","original_figure_id") REFERENCES "post"."event_actors"("event_id","figure_id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "post"."events" ADD CONSTRAINT "events_updated_by_users_id_fk" FOREIGN KEY ("updated_by") REFERENCES "auth"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "post"."events" ADD CONSTRAINT "events_author_users_id_fk" FOREIGN KEY ("author") REFERENCES "auth"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "post"."events" ADD CONSTRAINT "events_moderated_by_users_id_fk" FOREIGN KEY ("moderated_by") REFERENCES "auth"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "post"."events" ADD CONSTRAINT "FK_POST_EVENTS_RELATED_EVENT" FOREIGN KEY ("related_event") REFERENCES "post"."events"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "post"."events" ADD CONSTRAINT "FK_POST_EVENTS_PARENT_EVENT" FOREIGN KEY ("parent_event") REFERENCES "post"."events"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "history"."events" ADD CONSTRAINT "events_original_id_events_id_fk" FOREIGN KEY ("original_id") REFERENCES "post"."events"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "history"."events" ADD CONSTRAINT "events_author_users_id_fk" FOREIGN KEY ("author") REFERENCES "auth"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "history"."events" ADD CONSTRAINT "events_moderated_by_users_id_fk" FOREIGN KEY ("moderated_by") REFERENCES "auth"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "history"."events" ADD CONSTRAINT "FK_HISTORY_EVENTS_RELATED_EVENT" FOREIGN KEY ("related_event") REFERENCES "history"."events"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "history"."events" ADD CONSTRAINT "FK_HISTORY_EVENTS_PARENT_EVENT" FOREIGN KEY ("parent_event") REFERENCES "history"."events"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "post"."figures" ADD CONSTRAINT "figures_author_users_id_fk" FOREIGN KEY ("author") REFERENCES "auth"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "post"."figures" ADD CONSTRAINT "figures_updated_by_users_id_fk" FOREIGN KEY ("updated_by") REFERENCES "auth"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "post"."figures" ADD CONSTRAINT "figures_moderated_by_users_id_fk" FOREIGN KEY ("moderated_by") REFERENCES "auth"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
@@ -391,13 +321,8 @@ CREATE INDEX "IDX_POST_ARTICLES_CHANNEL" ON "post"."articles" USING btree ("chan
 CREATE INDEX "IDX_POST_CHANNEL_CREATED_BY_ORGANIZATION" ON "post"."channels" USING btree ("created_by_organization");--> statement-breakpoint
 CREATE INDEX "IDX_POST_CHANNEL_NAME" ON "post"."channels" USING btree ("name");--> statement-breakpoint
 CREATE INDEX "IDX_POST_EVENT_ACTORS_FIGURE_ID" ON "post"."event_actors" USING btree ("figure_id");--> statement-breakpoint
-CREATE INDEX "IDX_HISTORY_EVENT_ACTORS_FIGURE_ID" ON "history"."event_actors" USING btree ("figure_id");--> statement-breakpoint
-CREATE INDEX "IDX_HISTORY_EVENT_ACTORS_VERSION_NUMBER" ON "history"."event_actors" USING btree ("version_number");--> statement-breakpoint
 CREATE INDEX "IDX_POST_EVENTS_AUTHOR" ON "post"."events" USING btree ("author");--> statement-breakpoint
 CREATE INDEX "IDX_POST_EVENTS_NAME" ON "post"."events" USING gin (to_tsvector('english', "name"));--> statement-breakpoint
-CREATE INDEX "IDX_HISTORY_EVENTS_AUTHOR" ON "history"."events" USING btree ("author");--> statement-breakpoint
-CREATE INDEX "IDX_HISTORY_EVENTS_NAME" ON "history"."events" USING gin (to_tsvector('english', "name"));--> statement-breakpoint
-CREATE INDEX "IDX_HISTORY_EVENTS_VERSION_NUMBER" ON "history"."events" USING btree ("version_number");--> statement-breakpoint
 CREATE INDEX "IDX_POST_FIGURES_AUTHOR" ON "post"."figures" USING btree ("author");--> statement-breakpoint
 CREATE INDEX "IDX_POST_FIGURES_FULL_NAME" ON "post"."figures" USING gin (to_tsvector('english', "full_name"));--> statement-breakpoint
 CREATE INDEX "IDX_HISTORY_FIGURES_AUTHOR" ON "history"."figures" USING btree ("author");--> statement-breakpoint
@@ -428,12 +353,8 @@ CREATE POLICY "Anyone can read" ON "post"."comments" AS PERMISSIVE FOR SELECT TO
 CREATE POLICY "Only Service role have total control" ON "post"."comments" AS RESTRICTIVE FOR SELECT TO "service_role";--> statement-breakpoint
 CREATE POLICY "Anyone can read" ON "post"."event_actors" AS PERMISSIVE FOR SELECT TO "anon", "authenticated";--> statement-breakpoint
 CREATE POLICY "Only Service role have total control" ON "post"."event_actors" AS RESTRICTIVE FOR SELECT TO "service_role";--> statement-breakpoint
-CREATE POLICY "Anyone can read" ON "history"."event_actors" AS PERMISSIVE FOR SELECT TO "anon", "authenticated";--> statement-breakpoint
-CREATE POLICY "Only Service role have total control" ON "history"."event_actors" AS RESTRICTIVE FOR SELECT TO "service_role";--> statement-breakpoint
 CREATE POLICY "Anyone can read" ON "post"."events" AS PERMISSIVE FOR SELECT TO "anon", "authenticated";--> statement-breakpoint
 CREATE POLICY "Only Service role have total control" ON "post"."events" AS RESTRICTIVE FOR SELECT TO "service_role";--> statement-breakpoint
-CREATE POLICY "Anyone can read" ON "history"."events" AS PERMISSIVE FOR SELECT TO "anon", "authenticated";--> statement-breakpoint
-CREATE POLICY "Only Service role have total control" ON "history"."events" AS RESTRICTIVE FOR SELECT TO "service_role";--> statement-breakpoint
 CREATE POLICY "Anyone can read" ON "post"."figures" AS PERMISSIVE FOR SELECT TO "anon", "authenticated";--> statement-breakpoint
 CREATE POLICY "Only Service role have total control" ON "post"."figures" AS RESTRICTIVE FOR SELECT TO "service_role";--> statement-breakpoint
 CREATE POLICY "Anyone can read" ON "history"."figures" AS PERMISSIVE FOR SELECT TO "anon", "authenticated";--> statement-breakpoint
