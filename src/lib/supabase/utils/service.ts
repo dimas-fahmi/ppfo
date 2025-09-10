@@ -14,14 +14,14 @@ export async function createServiceClient() {
   // Ensure the environment variables are set
   if (
     !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.SECRET_SERVICE_ROLE_KEY
+    !process.env.SECRET_SUPABASE_SERVICE_ROLE_KEY
   ) {
     throw new Error("Missing Supabase environment variables");
   }
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SECRET_SERVICE_ROLE_KEY,
+    process.env.SECRET_SUPABASE_SERVICE_ROLE_KEY,
     {
       cookies: {
         getAll() {

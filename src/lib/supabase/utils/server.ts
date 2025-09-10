@@ -11,14 +11,14 @@ export async function createClient() {
   // Ensure the environment variables are set
   if (
     !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+    !process.env.NEXT_PUBLIC_SUPABASE_ANON_ID
   ) {
-    throw new Error("Missing Supabase environment variables");
+    throw new Error("SUPABASE_CONNECTION_INVALID_OR_UNAVAILABLE");
   }
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_ID,
     {
       cookies: {
         getAll() {

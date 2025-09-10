@@ -5,6 +5,7 @@ import "@/src/ui/css/globals.tailwind.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Sidebar from "@/src/ui/components/NavBar/Sidebar";
 import { useSidebarStore } from "@/src/lib/stores/sidebar";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export default function RootLayout({
   children,
@@ -34,6 +35,7 @@ export default function RootLayout({
 
           {/* Overlays */}
           <Sidebar />
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </body>
     </html>
