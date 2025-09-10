@@ -12,8 +12,8 @@ const EmailVerificationIndex = () => {
   const router = useRouter();
 
   const params = useSearchParams();
-  const code = params.get("code");
-  const message = params.get("message");
+  // const code = params.get("code");
+  // const message = params.get("message");
   const email = params.get("email");
 
   if (!email) {
