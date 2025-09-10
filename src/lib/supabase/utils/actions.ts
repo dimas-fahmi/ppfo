@@ -77,3 +77,23 @@ export async function signUp({
     )}`
   );
 }
+
+export async function signOut() {
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    if (error instanceof AuthError) {
+      redirect(
+        `/?code=${error.code}&message=${encodeURIComponent(
+          error.message ?? "undefined"
+        )}`
+      );
+    } else {
+      redirect("/?code=unknown_signout_error");
+    }
+  }
+
+  revalidatePath("/", "layout");
+  redirect("/");
+}

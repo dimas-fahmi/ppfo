@@ -47,6 +47,7 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Protected Routes
   if (
     !user &&
     protectedRoutes.includes(request.nextUrl.pathname) &&
@@ -54,9 +55,15 @@ export async function updateSession(request: NextRequest) {
     !request.nextUrl.pathname.startsWith("/auth") &&
     !request.nextUrl.pathname.startsWith("/error")
   ) {
-    // no user, potentially respond by redirecting the user to the auth page
     const url = request.nextUrl.clone();
     url.pathname = "/auth";
+    return NextResponse.redirect(url);
+  }
+
+  // Prevent authenticated users from accessing {routes}
+  if (user && ["/auth", "/auth/register"].includes(request.nextUrl.pathname)) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/";
     return NextResponse.redirect(url);
   }
 
