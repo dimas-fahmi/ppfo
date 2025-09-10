@@ -1,12 +1,10 @@
 import { useSidebarStore } from "@/src/lib/stores/sidebar";
 import { signOut } from "@/src/lib/supabase/utils/actions";
-import { createClient } from "@/src/lib/supabase/utils/client";
 import { Button } from "@/src/ui/shadcn/components/ui/button";
-import { User } from "@supabase/supabase-js";
 import { KeyRound, PanelLeftClose, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FaGithub } from "react-icons/fa";
 
 const SidebarHeader = () => {
