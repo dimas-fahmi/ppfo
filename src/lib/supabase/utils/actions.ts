@@ -14,8 +14,6 @@ export async function signIn({
 }) {
   const supabase = await createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   if (!email || !password) {
     return;
   }
@@ -39,22 +37,43 @@ export async function signIn({
   redirect("/");
 }
 
-export async function signup(formData: FormData) {
+export async function signUp({
+  email,
+  password,
+  confirmation,
+}: {
+  email?: string;
+  password?: string;
+  confirmation?: string;
+}) {
   const supabase = await createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
-  };
+  if (!email || !password || !confirmation) {
+    return redirect("/auth/register?code=invalid_mandatory_values");
+  }
 
-  const { error } = await supabase.auth.signUp(data);
+  if (password !== confirmation) {
+    return redirect("/auth/register?code=invalid_pw_confirmation");
+  }
+
+  const { error } = await supabase.auth.signUp({ email, password });
 
   if (error) {
-    redirect("/error");
+    if (error instanceof AuthError) {
+      redirect(
+        `/auth/register?code=${encodeURIComponent(
+          error.code ?? "undefined"
+        )}&message=${encodeURIComponent(error.message ?? "undefined")}`
+      );
+    } else {
+      redirect("/auth/register");
+    }
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect(
+    `/auth/email/verification?code=registration_success&message=${encodeURIComponent(
+      "We send you a verification email, please check your inbox."
+    )}`
+  );
 }

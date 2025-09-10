@@ -8,7 +8,7 @@ import { BsDiscord, BsGithub, BsGoogle } from "react-icons/bs";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "@/src/lib/supabase/utils/actions";
+import { signUp } from "@/src/lib/supabase/utils/actions";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   ArrowLeft,
@@ -18,12 +18,34 @@ import {
   LoaderCircle,
 } from "lucide-react";
 
-const anything = z.object({
-  email: z.email(),
-  password: z.string().min(1),
-});
+export const registrationSchema = z
+  .object({
+    email: z.email(),
 
-const AuthPageIndex = () => {
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long" })
+      .regex(/[a-z]/, {
+        message: "Password must include at least one lowercase letter",
+      })
+      .regex(/[A-Z]/, {
+        message: "Password must include at least one uppercase letter",
+      })
+      .regex(/[0-9]/, { message: "Password must include at least one number" })
+      .regex(/[^a-zA-Z0-9]/, {
+        message: "Password must include at least one special character",
+      }),
+
+    confirmation: z
+      .string()
+      .min(1, { message: "Password confirmation is required" }),
+  })
+  .refine((data) => data.password === data.confirmation, {
+    path: ["confirmation"],
+    message: "Passwords do not match",
+  });
+
+const RegisterPageIndex = () => {
   // Router Initialization
   const router = useRouter();
 
@@ -64,19 +86,22 @@ const AuthPageIndex = () => {
   } = useForm<{
     email: string;
     password: string;
+    confirmation: string;
   }>({
-    resolver: zodResolver(anything),
+    resolver: zodResolver(registrationSchema),
     mode: "onChange",
     defaultValues: {
       email: "",
       password: "",
+      confirmation: "",
     },
   });
   const email = watch("email");
   const password = watch("password");
+  const confirmation = watch("confirmation");
 
   return (
-    <div className="max-w-md px-4 overflow-y-scroll scrollbar-none h-full max-h-dvh">
+    <div className="max-w-md p-4 overflow-y-scroll scrollbar-none h-full max-h-dvh">
       <div className="mb-4">
         <Image
           width={90}
@@ -89,20 +114,14 @@ const AuthPageIndex = () => {
       {/* Form */}
       <header className="mb-4">
         <h1 className="font-header text-3xl font-black mb-2">
-          BREAK THE SHACKLES, RELEASE YOUR VOICES!
+          {"DON'T LET THEM TAKE OUR FREEDOM, JOIN US!"}
         </h1>
         <p className="font-light">Freedom fades in silence</p>
       </header>
 
       {/* Error Placeholder */}
       {errorState && (
-        <div
-          className={`${
-            errorState.code.includes("success")
-              ? "bg-primary/10 text-primary"
-              : "bg-destructive/10 text-destructive"
-          } mb-4 p-4 rounded-md text-sm`}
-        >
+        <div className="mb-4 bg-destructive/10 p-4 rounded-md text-destructive text-sm">
           <header className="flex text-sm justify-between items-center gap-2">
             <span className="flex items-center gap-2">
               <CircleAlert /> {errorState.message}
@@ -127,11 +146,12 @@ const AuthPageIndex = () => {
         onSubmit={handleSubmit((data) => {
           if (!isValid) return;
           setLoading(true);
-          signIn(data);
+          signUp(data);
           reset();
           setErrorState(null);
         })}
       >
+        {/* Email */}
         <Controller
           control={control}
           name="email"
@@ -156,40 +176,69 @@ const AuthPageIndex = () => {
             </div>
           )}
         />
-        <div>
-          <Controller
-            control={control}
-            name="password"
-            render={({ field, fieldState }) => (
-              <div>
-                <input
-                  {...field}
-                  type="password"
-                  className={`${
-                    fieldState.error && password.length > 3
-                      ? "border-destructive outline-destructive"
-                      : ""
-                  } border rounded-md px-4 py-2 w-full`}
-                  placeholder="Password"
-                />
-                <p
-                  className={`${
-                    fieldState.error && password.length > 3 ? "block" : "hidden"
-                  } text-destructive font-light text-xs mt-0.5`}
-                >
-                  {fieldState.error?.message}
-                </p>
-              </div>
-            )}
-          />
-        </div>
+
+        {/* Passowrd */}
+        <Controller
+          control={control}
+          name="password"
+          render={({ field, fieldState }) => (
+            <div>
+              <input
+                {...field}
+                type="password"
+                className={`${
+                  fieldState.error && password.length > 3
+                    ? "border-destructive outline-destructive"
+                    : ""
+                } border rounded-md px-4 py-2 w-full`}
+                placeholder="Password"
+              />
+              <p
+                className={`${
+                  fieldState.error && password.length > 3 ? "block" : "hidden"
+                } text-destructive font-light text-xs mt-0.5`}
+              >
+                {fieldState.error?.message}
+              </p>
+            </div>
+          )}
+        />
+
+        {/* Password Confirmation */}
+        <Controller
+          control={control}
+          name="confirmation"
+          render={({ field, fieldState }) => (
+            <div>
+              <input
+                {...field}
+                type="password"
+                className={`${
+                  fieldState.error && confirmation.length > 3
+                    ? "border-destructive outline-destructive"
+                    : ""
+                } border rounded-md px-4 py-2 w-full`}
+                placeholder="Password Confirmation"
+              />
+              <p
+                className={`${
+                  fieldState.error && confirmation.length > 3
+                    ? "block"
+                    : "hidden"
+                } text-destructive font-light text-xs mt-0.5`}
+              >
+                {fieldState.error?.message}
+              </p>
+            </div>
+          )}
+        />
         <Button type="submit" disabled={!isValid || loading}>
           {loading ? (
             <span className="flex items-center gap-2">
               <LoaderCircle className="animate-spin" /> Wait a moment
             </span>
           ) : (
-            <>Sign In</>
+            <>Sign Up</>
           )}
         </Button>
         <div className="flex justify-between text-sm font-light">
@@ -209,15 +258,20 @@ const AuthPageIndex = () => {
         </div>
 
         <div className="text-sm flex justify-between items-center">
-          <Link href={"/"} className="flex hover:underline items-center gap-2">
+          <Link
+            href={"/"}
+            prefetch
+            className="flex hover:underline items-center gap-2"
+          >
             <ArrowLeft />
             Homepage
           </Link>
           <Link
-            href={"/auth/register"}
+            href={"/auth"}
+            prefetch
             className="flex hover:underline items-center gap-2"
           >
-            Sign Up
+            Sign In
             <ArrowRight />
           </Link>
         </div>
@@ -226,4 +280,4 @@ const AuthPageIndex = () => {
   );
 };
 
-export default AuthPageIndex;
+export default RegisterPageIndex;
