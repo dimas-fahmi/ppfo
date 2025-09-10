@@ -8,6 +8,7 @@ import { threads } from "./threads";
 import { comments } from "./comments";
 import { figures } from "./figures";
 import { events, eventActors } from "./events";
+import { authUsers } from "drizzle-orm/supabase";
 
 // Export as batch
 const schema = {
@@ -40,6 +41,9 @@ const schema = {
 
   // Threads
   threads,
+
+  // Supabase [user]
+  authUsers,
 };
 
 export default schema;
