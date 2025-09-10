@@ -7,12 +7,39 @@ import { useRouter } from "next/navigation";
 
 export function useSignIn() {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   return useMutation({
-    mutationFn: ({ email, password }: { email: string; password: string }) =>
-      signIn(email, password),
+    mutationFn: async ({
+      email,
+      password,
+    }: {
+      email: string;
+      password: string;
+    }) => {
+      const result = await signIn(email, password);
+
+      if (!result.success) {
+        throw result;
+      }
+
+      return result.session;
+    },
+    onMutate: () => {
+      router.replace("/auth");
+    },
     onSuccess: (session) => {
       queryClient.setQueryData(["session"], session);
+      router.push("/");
+    },
+    onError: (error: AuthError & { email: string }) => {
+      router.replace(
+        `/auth?code=${
+          error?.code ?? "unknown_error"
+        }&message=${encodeURIComponent(error?.message ?? "undefined")}&email=${
+          error?.email
+        }`
+      );
     },
   });
 }

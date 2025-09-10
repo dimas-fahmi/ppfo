@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "./server";
-import { AuthError } from "@supabase/supabase-js";
+import { AuthError, Session } from "@supabase/supabase-js";
 
 export async function signIn(email: string, password: string) {
   const supabase = await createClient();
@@ -9,8 +9,30 @@ export async function signIn(email: string, password: string) {
     email,
     password,
   });
-  if (error) throw error;
-  return data.session;
+
+  const result: {
+    success: boolean;
+    code?: string;
+    message?: string;
+    session: Session | null;
+    email?: string;
+  } = {
+    success: true,
+    code: "",
+    message: "",
+    email: "",
+    session: data?.session,
+  };
+
+  if (error as AuthError) {
+    result.success = false;
+    result.email = email;
+    result.code = error?.code ?? "unknwon_error";
+    result.message =
+      error?.message ?? "Something went wrong, please contact our suppor team.";
+  }
+
+  return result;
 }
 
 export async function signUp({

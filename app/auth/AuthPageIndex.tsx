@@ -31,6 +31,7 @@ const AuthPageIndex = () => {
   const params = useSearchParams();
   const code = decodeURIComponent(params.get("code") ?? "");
   const message = decodeURIComponent(params.get("message") ?? "");
+  const emailProps = decodeURIComponent(params.get("email") ?? "");
 
   // Error States
   const [errorState, setErrorState] = useState<{
@@ -120,6 +121,22 @@ const AuthPageIndex = () => {
           {errorState.code === "invalid_credentials" && (
             <div className="mt-3">
               {`If you doesn't have an account, you can't use email & password just yet. You can create an account with Google, Discord and Github.`}
+            </div>
+          )}
+
+          {errorState.code === "email_not_confirmed" && (
+            <div className="mt-3 space-y-2">
+              <span className="block">{`To prevent spam, we require you to confirm your email address first.`}</span>
+              <Button
+                type="submit"
+                className="w-full hover:bg-destructive/50"
+                variant={"outline"}
+                asChild
+              >
+                <Link href={`/auth/email/verification?email=${emailProps}`}>
+                  Confirm Email
+                </Link>
+              </Button>
             </div>
           )}
         </div>
