@@ -1,17 +1,26 @@
 import { createClient } from "@/src/lib/supabase/utils/server";
 import { redirect } from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react";
+import EmailVerificationIndex from "./EmailVerificationIndex";
 
 const EmailVerification = async () => {
   const supabase = await createClient();
 
-  const { data, error } = await supabase.auth.getClaims();
+  const { data, error } = await supabase.auth.getUser();
 
-  if (error || !data?.claims) {
+  if (error || !data?.user?.email) {
     redirect("/auth");
   }
 
-  return <div>EmailVerification</div>;
+  if (data.user.email_confirmed_at) {
+    redirect("/");
+  }
+
+  return (
+    <Suspense fallback={<>a moment</>}>
+      <EmailVerificationIndex user={data.user} />
+    </Suspense>
+  );
 };
 
 export default EmailVerification;

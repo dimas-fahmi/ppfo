@@ -1,9 +1,12 @@
 import { useSidebarStore } from "@/src/lib/stores/sidebar";
+import { signOut } from "@/src/lib/supabase/utils/actions";
+import { createClient } from "@/src/lib/supabase/utils/client";
 import { Button } from "@/src/ui/shadcn/components/ui/button";
+import { User } from "@supabase/supabase-js";
 import { KeyRound, PanelLeftClose, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaGithub } from "react-icons/fa";
 
 const SidebarHeader = () => {
@@ -40,11 +43,17 @@ const SidebarHeader = () => {
               <FaGithub /> Repository
             </Link>
           </Button>
-          <Button variant={"outline"} onClick={() => toggle()} asChild>
-            <Link href={"/auth"}>
-              <KeyRound /> Sign In
-            </Link>
-          </Button>
+          {false ? (
+            <Button variant={"outline"} onClick={signOut}>
+              <KeyRound /> Sign Out
+            </Button>
+          ) : (
+            <Button variant={"outline"} onClick={() => toggle()} asChild>
+              <Link href={"/auth"}>
+                <KeyRound /> Sign In
+              </Link>
+            </Button>
+          )}
         </div>
         <Button variant={"outline"} onClick={() => toggle()} asChild>
           <Link href={"/search"}>
