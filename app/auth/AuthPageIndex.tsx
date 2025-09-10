@@ -3,12 +3,12 @@
 import { Button } from "@/src/ui/shadcn/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { BsDiscord, BsGithub, BsGoogle } from "react-icons/bs";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
@@ -23,15 +23,23 @@ const anything = z.object({
   password: z.string().min(1),
 });
 
-const AuthPageIndex = () => {
+const AuthPageIndex = ({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    code?: string;
+    message?: string;
+    emailProps?: string;
+  }>;
+}) => {
   // Router Initialization
   const router = useRouter();
 
   // Error Handling
-  const params = useSearchParams();
-  const code = decodeURIComponent(params.get("code") ?? "");
-  const message = decodeURIComponent(params.get("message") ?? "");
-  const emailProps = decodeURIComponent(params.get("email") ?? "");
+  const params = use(searchParams);
+  const code = decodeURIComponent(params?.code ?? "");
+  const message = decodeURIComponent(params?.message ?? "");
+  const emailProps = decodeURIComponent(params?.emailProps ?? "");
 
   // Error States
   const [errorState, setErrorState] = useState<{
@@ -151,6 +159,7 @@ const AuthPageIndex = () => {
           reset();
           setErrorState(null);
         })}
+        suppressHydrationWarning
       >
         <Controller
           control={control}

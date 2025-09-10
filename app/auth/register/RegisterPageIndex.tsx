@@ -3,12 +3,12 @@
 import { Button } from "@/src/ui/shadcn/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { BsDiscord, BsGithub, BsGoogle } from "react-icons/bs";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
@@ -45,14 +45,18 @@ export const registrationSchema = z
     message: "Passwords do not match",
   });
 
-const RegisterPageIndex = () => {
+const RegisterPageIndex = ({
+  searchParams,
+}: {
+  searchParams: Promise<{ code?: string; message?: string }>;
+}) => {
   // Router Initialization
   const router = useRouter();
 
   // Error Handling
-  const params = useSearchParams();
-  const code = decodeURIComponent(params.get("code") ?? "");
-  const message = decodeURIComponent(params.get("message") ?? "");
+  const params = use(searchParams);
+  const code = decodeURIComponent(params?.code ?? "");
+  const message = decodeURIComponent(params?.message ?? "");
 
   // Error States
   const [errorState, setErrorState] = useState<{

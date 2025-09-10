@@ -1,17 +1,25 @@
 import { generateMetadata } from "@/src/lib/utils/generateMetadata";
 import { Metadata } from "next";
-import React from "react";
+import React, { Suspense } from "react";
 import AuthPageIndex from "./AuthPageIndex";
 
 export const metadata: Metadata = generateMetadata({
   title: "Continue to PPFO",
 });
 
-const AuthPage = () => {
+const AuthPage = ({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    code?: string;
+    message?: string;
+    emailProps?: string;
+  }>;
+}) => {
   return (
-    <div className="">
-      <AuthPageIndex />
-    </div>
+    <Suspense fallback={<>...</>}>
+      <AuthPageIndex searchParams={searchParams} />
+    </Suspense>
   );
 };
 
