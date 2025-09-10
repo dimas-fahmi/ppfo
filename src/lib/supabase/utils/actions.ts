@@ -5,36 +5,14 @@ import { redirect } from "next/navigation";
 import { createClient } from "./server";
 import { AuthError } from "@supabase/supabase-js";
 
-export async function signIn({
-  email,
-  password,
-}: {
-  email?: string;
-  password?: string;
-}) {
+export async function signIn(email: string, password: string) {
   const supabase = await createClient();
-
-  if (!email || !password) {
-    return;
-  }
-
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
-
-  if (error) {
-    console.log(error);
-    if (error instanceof AuthError) {
-      redirect(
-        `/auth?code=${encodeURIComponent(
-          error.code ?? "undefined"
-        )}&message=${encodeURIComponent(error.message ?? "undefined")}`
-      );
-    } else {
-      redirect("/auth");
-    }
-  }
-
-  revalidatePath("/", "layout");
-  redirect("/");
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  if (error) throw error;
+  return data.session;
 }
 
 export async function signUp({
@@ -74,26 +52,12 @@ export async function signUp({
   redirect(
     `/auth/email/verification?code=registration_success&message=${encodeURIComponent(
       "We send you a verification email, please check your inbox."
-    )}`
+    )}&email=${encodeURIComponent(email)}`
   );
 }
 
 export async function signOut() {
   const supabase = await createClient();
   const { error } = await supabase.auth.signOut();
-
-  if (error) {
-    if (error instanceof AuthError) {
-      redirect(
-        `/?code=${error.code}&message=${encodeURIComponent(
-          error.message ?? "undefined"
-        )}`
-      );
-    } else {
-      redirect("/?code=unknown_signout_error");
-    }
-  }
-
-  revalidatePath("/", "layout");
-  redirect("/");
+  if (error) throw error;
 }
