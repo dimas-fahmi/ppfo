@@ -1,24 +1,16 @@
-import { createClient } from "@/src/lib/supabase/utils/server";
-import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 import EmailVerificationIndex from "./EmailVerificationIndex";
+import { Metadata } from "next";
+import { generateMetadata } from "@/src/lib/utils/generateMetadata";
+
+export const metadata: Metadata = generateMetadata({
+  title: "Email Verification",
+});
 
 const EmailVerification = async () => {
-  const supabase = await createClient();
-
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error || !data?.user?.email) {
-    redirect("/auth");
-  }
-
-  if (data.user.email_confirmed_at) {
-    redirect("/");
-  }
-
   return (
     <Suspense fallback={<>a moment</>}>
-      <EmailVerificationIndex user={data.user} />
+      <EmailVerificationIndex />
     </Suspense>
   );
 };

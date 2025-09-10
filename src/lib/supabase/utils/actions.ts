@@ -1,7 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { createClient } from "./server";
 import { AuthError } from "@supabase/supabase-js";
 
@@ -27,33 +25,24 @@ export async function signUp({
   const supabase = await createClient();
 
   if (!email || !password || !confirmation) {
-    return redirect("/auth/register?code=invalid_mandatory_values");
+    throw new AuthError("Missing mandatory credentials", 400, "bad_request");
   }
 
   if (password !== confirmation) {
-    return redirect("/auth/register?code=invalid_pw_confirmation");
+    throw new AuthError(
+      "Confirmation password did not match provided password",
+      400,
+      "bad_request"
+    );
   }
 
-  const { error } = await supabase.auth.signUp({ email, password });
+  const { data, error } = await supabase.auth.signUp({ email, password });
 
   if (error) {
-    if (error instanceof AuthError) {
-      redirect(
-        `/auth/register?code=${encodeURIComponent(
-          error.code ?? "undefined"
-        )}&message=${encodeURIComponent(error.message ?? "undefined")}`
-      );
-    } else {
-      redirect("/auth/register");
-    }
+    throw error;
   }
 
-  revalidatePath("/", "layout");
-  redirect(
-    `/auth/email/verification?code=registration_success&message=${encodeURIComponent(
-      "We send you a verification email, please check your inbox."
-    )}&email=${encodeURIComponent(email)}`
-  );
+  return data;
 }
 
 export async function signOut() {

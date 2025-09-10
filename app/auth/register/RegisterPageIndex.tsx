@@ -8,7 +8,6 @@ import { BsDiscord, BsGithub, BsGoogle } from "react-icons/bs";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signUp } from "@/src/lib/supabase/utils/actions";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   ArrowLeft,
@@ -17,6 +16,7 @@ import {
   CircleX,
   LoaderCircle,
 } from "lucide-react";
+import { useSignUp } from "@/src/lib/hooks/useAuth";
 
 export const registrationSchema = z
   .object({
@@ -100,6 +100,9 @@ const RegisterPageIndex = () => {
   const password = watch("password");
   const confirmation = watch("confirmation");
 
+  // Mutation
+  const signUp = useSignUp();
+
   return (
     <div className="max-w-md p-4 overflow-y-scroll scrollbar-none h-full max-h-dvh">
       <div className="mb-4">
@@ -146,7 +149,7 @@ const RegisterPageIndex = () => {
         onSubmit={handleSubmit((data) => {
           if (!isValid) return;
           setLoading(true);
-          signUp(data);
+          signUp.mutate(data);
           reset();
           setErrorState(null);
         })}

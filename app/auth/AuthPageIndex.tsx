@@ -8,7 +8,6 @@ import { BsDiscord, BsGithub, BsGoogle } from "react-icons/bs";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "@/src/lib/supabase/utils/actions";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   ArrowLeft,
@@ -17,6 +16,7 @@ import {
   CircleX,
   LoaderCircle,
 } from "lucide-react";
+import { useSignIn } from "@/src/lib/hooks/useAuth";
 
 const anything = z.object({
   email: z.email(),
@@ -75,6 +75,9 @@ const AuthPageIndex = () => {
   const email = watch("email");
   const password = watch("password");
 
+  // Mutation
+  const signIn = useSignIn();
+
   return (
     <div className="max-w-md px-4 overflow-y-scroll scrollbar-none h-full max-h-dvh">
       <div className="mb-4">
@@ -127,7 +130,7 @@ const AuthPageIndex = () => {
         onSubmit={handleSubmit((data) => {
           if (!isValid) return;
           setLoading(true);
-          signIn(data);
+          signIn.mutate(data);
           reset();
           setErrorState(null);
         })}

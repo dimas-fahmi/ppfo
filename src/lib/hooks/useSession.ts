@@ -22,6 +22,9 @@ export const useSession = () => {
     queryFn: getSession,
     staleTime: Infinity,
     gcTime: Infinity,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
   });
 
   useEffect(() => {
