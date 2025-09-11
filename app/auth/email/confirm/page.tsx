@@ -21,7 +21,10 @@ const ConfirmPage = ({
   );
   const { token, type } = _confirmationURL_params;
 
-  const processed_url = `${origin}${pathname}?token=${token}&type=${type}&redirect_to=http://localhost:3000/auth/email/confirmed?email=${params?.email}`;
+  const app_origin =
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://ppfo.dimasfahmi.pro";
+
+  const processed_url = `${origin}${pathname}?token=${token}&type=${type}&redirect_to=${app_origin}/auth/email/confirmed?email=${params?.email}`;
 
   return (
     <Suspense fallback={<>...</>}>
