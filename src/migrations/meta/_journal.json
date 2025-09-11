@@ -22,6 +22,20 @@
       "when": 1757580481485,
       "tag": "0002_dry_beast",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1757599985340,
+      "tag": "0003_crazy_risque",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1757603847509,
+      "tag": "0004_polite_prowler",
+      "breakpoints": true
     }
   ]
 }
