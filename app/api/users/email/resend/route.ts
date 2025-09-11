@@ -78,9 +78,6 @@ export async function POST(request: NextRequest) {
     const { error } = await supabase.auth.resend({
       type: body.type,
       email: body.email,
-      options: {
-        emailRedirectTo: `http://localhost:3000/auth/email/confirmed?email=${body.email}&`,
-      },
     });
 
     if (error) {
