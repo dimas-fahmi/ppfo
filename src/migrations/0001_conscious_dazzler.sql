@@ -1,0 +1,1 @@
+ALTER TABLE "user_management"."profiles" ADD COLUMN "registration_phase" text DEFAULT 'name' NOT NULL;

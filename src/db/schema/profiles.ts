@@ -21,6 +21,7 @@ export const profiles = userManagement
         .references(() => authUsers.id)
         .primaryKey(),
       fullName: text("full_name"),
+      email: text("email").unique().notNull(),
       first_name: text("first_name"),
       last_name: text("last_name"),
       display_name: text("display_name"),
