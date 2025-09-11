@@ -46,3 +46,6 @@ export const profiles = userManagement
     ]
   )
   .enableRLS();
+
+export type SelectProfiles = typeof profiles.$inferSelect;
+export type InsertProfiles = typeof profiles.$inferInsert;

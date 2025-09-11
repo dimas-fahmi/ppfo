@@ -15,6 +15,13 @@
       "when": 1757580254860,
       "tag": "0001_conscious_dazzler",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1757580481485,
+      "tag": "0002_dry_beast",
+      "breakpoints": true
     }
   ]
 }

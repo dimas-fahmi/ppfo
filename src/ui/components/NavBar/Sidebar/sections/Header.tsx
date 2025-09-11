@@ -1,5 +1,6 @@
+import { useSignOut } from "@/src/lib/hooks/useAuth";
+import { useSession } from "@/src/lib/hooks/useSession";
 import { useSidebarStore } from "@/src/lib/stores/sidebar";
-import { signOut } from "@/src/lib/supabase/utils/actions";
 import { Button } from "@/src/ui/shadcn/components/ui/button";
 import { KeyRound, PanelLeftClose, Search } from "lucide-react";
 import Image from "next/image";
@@ -8,6 +9,12 @@ import React from "react";
 import { FaGithub } from "react-icons/fa";
 
 const SidebarHeader = () => {
+  // Session
+  const { data: session } = useSession();
+
+  // SignOut
+  const signOut = useSignOut();
+
   // Toggle Sidebar
   const toggle = useSidebarStore((state) => state.toggleOpen);
 
@@ -41,8 +48,13 @@ const SidebarHeader = () => {
               <FaGithub /> Repository
             </Link>
           </Button>
-          {false ? (
-            <Button variant={"outline"} onClick={signOut}>
+          {session ? (
+            <Button
+              variant={"outline"}
+              onClick={() => {
+                signOut.mutate();
+              }}
+            >
               <KeyRound /> Sign Out
             </Button>
           ) : (
