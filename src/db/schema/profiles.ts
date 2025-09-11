@@ -8,7 +8,7 @@ import {
 
 export const registrationPhases = [
   "name",
-  "display name",
+  "display_name",
   "avatar",
   "completed",
 ] as const;
@@ -20,7 +20,7 @@ export const profiles = userManagement
       userId: uuid("user_id")
         .references(() => authUsers.id)
         .primaryKey(),
-      fullName: text("full_name"),
+      username: text("username").unique(),
       email: text("email").unique().notNull(),
       first_name: text("first_name"),
       last_name: text("last_name"),
@@ -39,7 +39,7 @@ export const profiles = userManagement
       policy_ServiceRoleTotalControl,
 
       // Indexes
-      index("IDX_USER_MANAGEMENT_PROFILES_FULL_NAME").on(t.fullName),
+      index("IDX_USER_MANAGEMENT_PROFILES_USERNAME").on(t.username),
       uniqueIndex("UIDX_USER_MANAGEMENT_PROFILES_DISPLAY_NAME").on(
         t.display_name
       ),
