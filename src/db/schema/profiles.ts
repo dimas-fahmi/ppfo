@@ -6,6 +6,13 @@ import {
   userManagement,
 } from "./configs";
 
+export const registrationPhases = [
+  "name",
+  "display name",
+  "avatar",
+  "completed",
+] as const;
+
 export const profiles = userManagement
   .table(
     "profiles",
@@ -19,6 +26,11 @@ export const profiles = userManagement
       display_name: text("display_name"),
       avatar: text("avatar"),
       coverImage: text("cover_image"),
+      registrationPhase: text("registration_phase", {
+        enum: registrationPhases,
+      })
+        .notNull()
+        .default("name"),
     },
     (t) => [
       // Policy
