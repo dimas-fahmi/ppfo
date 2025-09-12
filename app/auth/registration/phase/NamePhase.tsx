@@ -104,7 +104,6 @@ const NamePhase = () => {
                     : ""
                 } border rounded-md px-4 py-2 w-full`}
                 placeholder="First Name"
-                name="first_name"
                 autoComplete="off"
               />
               <p
@@ -132,7 +131,6 @@ const NamePhase = () => {
                     : ""
                 } border rounded-md px-4 py-2 w-full`}
                 placeholder="Last Name"
-                name="last_name"
                 autoComplete="off"
               />
               <p
@@ -161,7 +159,6 @@ const NamePhase = () => {
                   : ""
               } border rounded-md px-4 py-2 w-full`}
               placeholder="Username"
-              name="username"
               autoComplete="off"
             />
             <p
