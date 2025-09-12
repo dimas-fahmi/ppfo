@@ -1,4 +1,4 @@
-import z from "zod";
+import { z } from "zod";
 
 const USERNAME_REGEX =
   /^(?!.*[_-]{2})(?!.*[_-].*[_-])^[a-z](?:[a-z0-9]*[_-]?[a-z0-9]+)*$/;
