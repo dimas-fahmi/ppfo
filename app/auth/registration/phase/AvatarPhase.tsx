@@ -103,6 +103,9 @@ const AvatarPhase = () => {
         });
       }
     },
+    onError: () => {
+      setLoading(false);
+    },
   });
 
   return (
