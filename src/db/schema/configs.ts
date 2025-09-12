@@ -40,8 +40,8 @@ export const policy_AnyoneCanRead = pgPolicy("Anyone can read", {
 export const policy_ServiceRoleTotalControl = pgPolicy(
   "Only Service role have total control",
   {
-    as: "restrictive",
-    for: "select",
+    as: "permissive",
+    for: "all",
     to: serviceRole,
     using: sql``,
     withCheck: sql``,

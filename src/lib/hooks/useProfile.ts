@@ -1,8 +1,10 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "./useSession";
 import { fetchUserProfile } from "../fetchers/fetchUserProfile";
 import { useEffect } from "react";
 import { createClient } from "../supabase/utils/client";
+import { mutateProfile } from "../mutators/mutateProfile";
+import { UsersProfile } from "@/app/api/users/profiles/get";
 
 export const useProfile = () => {
   // Init
@@ -11,12 +13,12 @@ export const useProfile = () => {
 
   // Get Session
   const { data: session } = useSession();
-  const id = session?.session?.user.id;
+  const id = session?.user.id;
 
   // Query
   const query = useQuery({
     queryKey: ["auth", "session", "profile"],
-    queryFn: () => (id ? fetchUserProfile(id) : null),
+    queryFn: () => fetchUserProfile(id!),
     enabled: !!id,
     staleTime: Infinity,
     gcTime: Infinity,
@@ -28,12 +30,52 @@ export const useProfile = () => {
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      queryClient.setQueryData(["auth", "session"], session ?? null);
+    } = supabase.auth.onAuthStateChange((_event, _session) => {
+      query.refetch();
     });
 
     return () => subscription.unsubscribe();
-  }, [supabase, queryClient]);
+  }, [supabase, queryClient, query]);
 
-  return query.data?.result;
+  return query;
+};
+
+export const useProfileMutate = () => {
+  const queryClient = useQueryClient();
+  const { data, refetch } = useProfile();
+
+  return useMutation({
+    mutationFn: mutateProfile,
+    onMutate: (newData) => {
+      queryClient.cancelQueries({
+        queryKey: ["auth", "session", "profile"],
+      });
+
+      const lastData = data;
+
+      if (lastData) {
+        queryClient.setQueryData(["auth", "session", "profile"], () => {
+          const n: UsersProfile = {
+            ...lastData,
+            ...newData.newValues,
+          };
+
+          return n;
+        });
+      }
+
+      return { lastData };
+    },
+    onError: (_err, _newData, context) => {
+      if (context?.lastData) {
+        queryClient.setQueryData(
+          ["auth", "session", "profile"],
+          context.lastData
+        );
+      }
+    },
+    onSettled: () => {
+      refetch();
+    },
+  });
 };

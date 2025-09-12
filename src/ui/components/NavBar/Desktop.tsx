@@ -13,8 +13,18 @@ import { usePathname } from "next/navigation";
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { useSidebarStore } from "@/src/lib/stores/sidebar";
 import { motion } from "motion/react";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../shadcn/components/ui/avatar";
+import { useSession } from "@/src/lib/hooks/useSession";
+import { useProfile } from "@/src/lib/hooks/useProfile";
 
 const NavBar_Desktop = () => {
+  const { data: session } = useSession();
+  const { data: profile } = useProfile();
+
   const pathname = usePathname();
   const toggleSidebar = useSidebarStore((state) => state.toggleOpen);
   const sidebarOpenState = useSidebarStore((state) => state.open);
@@ -105,6 +115,22 @@ const NavBar_Desktop = () => {
           >
             <ToggleIcon size={24} />
           </button>
+          {session && profile && (
+            <button
+              onClick={toggleSidebar}
+              className="cursor-pointer active:scale-95 transition-all duration-300"
+            >
+              <Avatar>
+                <AvatarImage
+                  src={
+                    "https://images.pexels.com/photos/3823495/pexels-photo-3823495.jpeg"
+                  }
+                  alt="Placeholder"
+                />
+                <AvatarFallback>DF</AvatarFallback>
+              </Avatar>
+            </button>
+          )}
         </div>
       </div>
     </nav>

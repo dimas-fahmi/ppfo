@@ -1,9 +1,6 @@
-import { UsersProfile } from "@/app/api/users/profiles/route";
-import { StandardizeResponse } from "../utils/createResponse";
+import { UsersProfile } from "@/app/api/users/profiles/get";
 
-export const fetchUserProfile = async (
-  id: string
-): Promise<StandardizeResponse<UsersProfile>> => {
+export const fetchUserProfile = async (id: string): Promise<UsersProfile> => {
   try {
     const response = await fetch(`/api/users/profiles/?id=${id}`);
 
@@ -13,7 +10,7 @@ export const fetchUserProfile = async (
       throw result;
     }
 
-    return result;
+    return result?.result;
   } catch (error) {
     throw error;
   }
