@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { mutateUserAvatar } from "@/src/lib/mutators/mutateUserAvatar";
 import { useProfile, useProfileMutate } from "@/src/lib/hooks/useProfile";
 import { Loader } from "lucide-react";
+import { ALLOWED_MIME_TYPES, MAX_SIZE } from "@/src/lib/configs/app";
 
 const AvatarPhase = () => {
   // Image Preview
@@ -46,11 +47,21 @@ const AvatarPhase = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (!file.type.includes("image")) {
-        setError("Unsupported format, please follow guides above.");
+      if (!ALLOWED_MIME_TYPES.includes(file.type)) {
+        setError(
+          `Unsupported format. Allowed: ${ALLOWED_MIME_TYPES.join(", ")}`
+        );
         e.target.value = "";
         return;
       }
+
+      if (file.size > MAX_SIZE) {
+        setError(`File too large. Max ${MAX_SIZE / (1024 * 1024)}MB`);
+        e.target.value = "";
+        return;
+      }
+
+      setError(null);
       const url = URL.createObjectURL(file);
       setFile(file);
       setCroppingImage(url);
