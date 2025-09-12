@@ -1,4 +1,4 @@
-import { text, uniqueIndex, uuid } from "drizzle-orm/pg-core";
+import { pgEnum, text, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 import { authUsers } from "drizzle-orm/supabase";
 import {
   policy_AnyoneCanRead,
@@ -40,6 +40,9 @@ export const profiles = userManagement
 
       // Indexes
       uniqueIndex("UIDX_USER_MANAGEMENT_PROFILES_USERNAME").on(t.username),
+
+      // Enum
+      pgEnum("EMUN_USER_MANAGEMENT_REGISTRATION_PHASE", registrationPhases),
     ]
   )
   .enableRLS();
