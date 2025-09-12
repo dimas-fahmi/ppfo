@@ -31,13 +31,19 @@ export const getCroppedImg = async (
     pixelCrop.height
   );
 
-  const result = new Promise<{ url: string; blob: Blob }>((resolve) => {
-    canvas.toBlob((blob) => {
-      if (blob) {
+  const result = new Promise<{ url: string; blob: Blob }>((resolve, reject) => {
+    const mime = "image/webp";
+    const quality = 1;
+    canvas.toBlob(
+      (blob) => {
+        if (!blob)
+          return reject(new Error("Failed to create Blob from canvas"));
         const url = URL.createObjectURL(blob);
         resolve({ url, blob });
-      }
-    }, "image/jpeg");
+      },
+      mime,
+      quality
+    );
   });
 
   return result;
