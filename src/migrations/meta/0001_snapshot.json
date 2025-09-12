@@ -1,0 +1,2942 @@
+{
+  "id": "24979a58-c220-4155-be2c-6f152fdb41d9",
+  "prevId": "9e2a94ef-c26a-4044-9790-21ed2836103d",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "post.articles": {
+      "name": "articles",
+      "schema": "post",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "author": {
+          "name": "author",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "organization": {
+          "name": "organization",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "publisher": {
+          "name": "publisher",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "drafted_at": {
+          "name": "drafted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "published_at": {
+          "name": "published_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "taken_down_by": {
+          "name": "taken_down_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "taken_down_at": {
+          "name": "taken_down_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subtitle": {
+          "name": "subtitle",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "overview": {
+          "name": "overview",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "language": {
+          "name": "language",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "thumbnail": {
+          "name": "thumbnail",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "keywords": {
+          "name": "keywords",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "channel": {
+          "name": "channel",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'not_ready'"
+        },
+        "organization_message": {
+          "name": "organization_message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "moderator_message": {
+          "name": "moderator_message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "moderation_level": {
+          "name": "moderation_level",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'secure'"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "UIDX_POST_ARTICLES_SLUG": {
+          "name": "UIDX_POST_ARTICLES_SLUG",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "IDX_POST_ARTICLES_AUTHOR": {
+          "name": "IDX_POST_ARTICLES_AUTHOR",
+          "columns": [
+            {
+              "expression": "author",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "IDX_POST_ARTICLES_ORGANIZATION": {
+          "name": "IDX_POST_ARTICLES_ORGANIZATION",
+          "columns": [
+            {
+              "expression": "organization",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "IDX_POST_ARTICLES_PUBLISHER": {
+          "name": "IDX_POST_ARTICLES_PUBLISHER",
+          "columns": [
+            {
+              "expression": "publisher",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "IDX_POST_ARTICLES_TITLE": {
+          "name": "IDX_POST_ARTICLES_TITLE",
+          "columns": [
+            {
+              "expression": "to_tsvector('english', \"title\")",
+              "asc": true,
+              "isExpression": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "gin",
+          "with": {}
+        },
+        "IDX_POST_ARTICLES_CHANNEL": {
+          "name": "IDX_POST_ARTICLES_CHANNEL",
+          "columns": [
+            {
+              "expression": "channel",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "articles_author_users_id_fk": {
+          "name": "articles_author_users_id_fk",
+          "tableFrom": "articles",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "author"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "articles_organization_organizations_id_fk": {
+          "name": "articles_organization_organizations_id_fk",
+          "tableFrom": "articles",
+          "tableTo": "organizations",
+          "schemaTo": "organization",
+          "columnsFrom": [
+            "organization"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "articles_publisher_users_id_fk": {
+          "name": "articles_publisher_users_id_fk",
+          "tableFrom": "articles",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "publisher"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "articles_taken_down_by_users_id_fk": {
+          "name": "articles_taken_down_by_users_id_fk",
+          "tableFrom": "articles",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "taken_down_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "articles_channel_channels_id_fk": {
+          "name": "articles_channel_channels_id_fk",
+          "tableFrom": "articles",
+          "tableTo": "channels",
+          "schemaTo": "post",
+          "columnsFrom": [
+            "channel"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {
+        "Anyone can read": {
+          "name": "Anyone can read",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "",
+          "withCheck": ""
+        },
+        "Only Service role have total control": {
+          "name": "Only Service role have total control",
+          "as": "RESTRICTIVE",
+          "for": "SELECT",
+          "to": [
+            "service_role"
+          ],
+          "using": "",
+          "withCheck": ""
+        }
+      },
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "post.channels": {
+      "name": "channels",
+      "schema": "post",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "created_by_organization": {
+          "name": "created_by_organization",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "logo": {
+          "name": "logo",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cover_image": {
+          "name": "cover_image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "IDX_POST_CHANNEL_CREATED_BY_ORGANIZATION": {
+          "name": "IDX_POST_CHANNEL_CREATED_BY_ORGANIZATION",
+          "columns": [
+            {
+              "expression": "created_by_organization",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "IDX_POST_CHANNEL_NAME": {
+          "name": "IDX_POST_CHANNEL_NAME",
+          "columns": [
+            {
+              "expression": "name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "channels_created_by_organization_organizations_id_fk": {
+          "name": "channels_created_by_organization_organizations_id_fk",
+          "tableFrom": "channels",
+          "tableTo": "organizations",
+          "schemaTo": "organization",
+          "columnsFrom": [
+            "created_by_organization"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {
+        "Anyone can read": {
+          "name": "Anyone can read",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "",
+          "withCheck": ""
+        },
+        "Only Service role have total control": {
+          "name": "Only Service role have total control",
+          "as": "RESTRICTIVE",
+          "for": "SELECT",
+          "to": [
+            "service_role"
+          ],
+          "using": "",
+          "withCheck": ""
+        }
+      },
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "post.comments": {
+      "name": "comments",
+      "schema": "post",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "article_id": {
+          "name": "article_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "thread_id": {
+          "name": "thread_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "movement_id": {
+          "name": "movement_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "event_id": {
+          "name": "event_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "figure_id": {
+          "name": "figure_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "author": {
+          "name": "author",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'secure'"
+        },
+        "moderated_by": {
+          "name": "moderated_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "comments_article_id_articles_id_fk": {
+          "name": "comments_article_id_articles_id_fk",
+          "tableFrom": "comments",
+          "tableTo": "articles",
+          "schemaTo": "post",
+          "columnsFrom": [
+            "article_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "comments_thread_id_threads_id_fk": {
+          "name": "comments_thread_id_threads_id_fk",
+          "tableFrom": "comments",
+          "tableTo": "threads",
+          "schemaTo": "post",
+          "columnsFrom": [
+            "thread_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "comments_movement_id_movements_id_fk": {
+          "name": "comments_movement_id_movements_id_fk",
+          "tableFrom": "comments",
+          "tableTo": "movements",
+          "schemaTo": "post",
+          "columnsFrom": [
+            "movement_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "comments_event_id_events_id_fk": {
+          "name": "comments_event_id_events_id_fk",
+          "tableFrom": "comments",
+          "tableTo": "events",
+          "schemaTo": "post",
+          "columnsFrom": [
+            "event_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "comments_figure_id_figures_id_fk": {
+          "name": "comments_figure_id_figures_id_fk",
+          "tableFrom": "comments",
+          "tableTo": "figures",
+          "schemaTo": "post",
+          "columnsFrom": [
+            "figure_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "comments_author_users_id_fk": {
+          "name": "comments_author_users_id_fk",
+          "tableFrom": "comments",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "author"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "comments_moderated_by_users_id_fk": {
+          "name": "comments_moderated_by_users_id_fk",
+          "tableFrom": "comments",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "moderated_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "FK_POST_COMMENTS_PARENT_ID": {
+          "name": "FK_POST_COMMENTS_PARENT_ID",
+          "tableFrom": "comments",
+          "tableTo": "comments",
+          "schemaTo": "post",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {
+        "Anyone can read": {
+          "name": "Anyone can read",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "",
+          "withCheck": ""
+        },
+        "Only Service role have total control": {
+          "name": "Only Service role have total control",
+          "as": "RESTRICTIVE",
+          "for": "SELECT",
+          "to": [
+            "service_role"
+          ],
+          "using": "",
+          "withCheck": ""
+        }
+      },
+      "checkConstraints": {
+        "CHECK_POST_COMMENTS_TARGET_AT_LEAST_ONE": {
+          "name": "CHECK_POST_COMMENTS_TARGET_AT_LEAST_ONE",
+          "value": "\"post\".\"comments\".\"article_id\" IS NOT NULL OR \"post\".\"comments\".\"movement_id\" IS NOT NULL OR \"post\".\"comments\".\"thread_id\" IS NOT NULL OR \"post\".\"comments\".\"event_id\" IS NOT NULL OR \"post\".\"comments\".\"figure_id\" IS NOT NULL"
+        }
+      },
+      "isRLSEnabled": true
+    },
+    "post.event_actors": {
+      "name": "event_actors",
+      "schema": "post",
+      "columns": {
+        "event_id": {
+          "name": "event_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "figure_id": {
+          "name": "figure_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "version_number": {
+          "name": "version_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "updated_by": {
+          "name": "updated_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "IDX_POST_EVENT_ACTORS_FIGURE_ID": {
+          "name": "IDX_POST_EVENT_ACTORS_FIGURE_ID",
+          "columns": [
+            {
+              "expression": "figure_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "event_actors_event_id_events_id_fk": {
+          "name": "event_actors_event_id_events_id_fk",
+          "tableFrom": "event_actors",
+          "tableTo": "events",
+          "schemaTo": "post",
+          "columnsFrom": [
+            "event_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "event_actors_figure_id_figures_id_fk": {
+          "name": "event_actors_figure_id_figures_id_fk",
+          "tableFrom": "event_actors",
+          "tableTo": "figures",
+          "schemaTo": "post",
+          "columnsFrom": [
+            "figure_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "event_actors_created_by_users_id_fk": {
+          "name": "event_actors_created_by_users_id_fk",
+          "tableFrom": "event_actors",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "created_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "event_actors_updated_by_users_id_fk": {
+          "name": "event_actors_updated_by_users_id_fk",
+          "tableFrom": "event_actors",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "updated_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "CPK_POST_EVENT_ACTORS": {
+          "name": "CPK_POST_EVENT_ACTORS",
+          "columns": [
+            "event_id",
+            "figure_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {
+        "Anyone can read": {
+          "name": "Anyone can read",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "",
+          "withCheck": ""
+        },
+        "Only Service role have total control": {
+          "name": "Only Service role have total control",
+          "as": "RESTRICTIVE",
+          "for": "SELECT",
+          "to": [
+            "service_role"
+          ],
+          "using": "",
+          "withCheck": ""
+        }
+      },
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "post.events": {
+      "name": "events",
+      "schema": "post",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "version_number": {
+          "name": "version_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "updated_by": {
+          "name": "updated_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "author": {
+          "name": "author",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
+        },
+        "sources": {
+          "name": "sources",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "importance": {
+          "name": "importance",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "latitude": {
+          "name": "latitude",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "longitude": {
+          "name": "longitude",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "geo": {
+          "name": "geo",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "event_type": {
+          "name": "event_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "casualties_death": {
+          "name": "casualties_death",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "casualties_injured": {
+          "name": "casualties_injured",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "related_organizations": {
+          "name": "related_organizations",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "images": {
+          "name": "images",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "videos": {
+          "name": "videos",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tags": {
+          "name": "tags",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "related_event": {
+          "name": "related_event",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parent_event": {
+          "name": "parent_event",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subtitle": {
+          "name": "subtitle",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "overview": {
+          "name": "overview",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "keywords": {
+          "name": "keywords",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "thumbnail": {
+          "name": "thumbnail",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "country": {
+          "name": "country",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date_start": {
+          "name": "date_start",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date_end": {
+          "name": "date_end",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_date_accurate": {
+          "name": "is_date_accurate",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_violation_of_human_rights": {
+          "name": "is_violation_of_human_rights",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "moderated_by": {
+          "name": "moderated_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "moderation_message": {
+          "name": "moderation_message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "IDX_POST_EVENTS_AUTHOR": {
+          "name": "IDX_POST_EVENTS_AUTHOR",
+          "columns": [
+            {
+              "expression": "author",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "IDX_POST_EVENTS_NAME": {
+          "name": "IDX_POST_EVENTS_NAME",
+          "columns": [
+            {
+              "expression": "to_tsvector('english', \"name\")",
+              "asc": true,
+              "isExpression": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "gin",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "events_updated_by_users_id_fk": {
+          "name": "events_updated_by_users_id_fk",
+          "tableFrom": "events",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "updated_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "events_author_users_id_fk": {
+          "name": "events_author_users_id_fk",
+          "tableFrom": "events",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "author"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "events_moderated_by_users_id_fk": {
+          "name": "events_moderated_by_users_id_fk",
+          "tableFrom": "events",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "moderated_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "FK_POST_EVENTS_RELATED_EVENT": {
+          "name": "FK_POST_EVENTS_RELATED_EVENT",
+          "tableFrom": "events",
+          "tableTo": "events",
+          "schemaTo": "post",
+          "columnsFrom": [
+            "related_event"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "FK_POST_EVENTS_PARENT_EVENT": {
+          "name": "FK_POST_EVENTS_PARENT_EVENT",
+          "tableFrom": "events",
+          "tableTo": "events",
+          "schemaTo": "post",
+          "columnsFrom": [
+            "parent_event"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {
+        "Anyone can read": {
+          "name": "Anyone can read",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "",
+          "withCheck": ""
+        },
+        "Only Service role have total control": {
+          "name": "Only Service role have total control",
+          "as": "RESTRICTIVE",
+          "for": "SELECT",
+          "to": [
+            "service_role"
+          ],
+          "using": "",
+          "withCheck": ""
+        }
+      },
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "post.figures": {
+      "name": "figures",
+      "schema": "post",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "author": {
+          "name": "author",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "sources": {
+          "name": "sources",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_number": {
+          "name": "version_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "updated_by": {
+          "name": "updated_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
+        },
+        "full_name": {
+          "name": "full_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subtitle": {
+          "name": "subtitle",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "overview": {
+          "name": "overview",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date_of_birth": {
+          "name": "date_of_birth",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date_of_death": {
+          "name": "date_of_death",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "content": {
+          "name": "content",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "portrait": {
+          "name": "portrait",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nationality": {
+          "name": "nationality",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_guilty": {
+          "name": "is_guilty",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "heroism_score": {
+          "name": "heroism_score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "evil_score": {
+          "name": "evil_score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "moderated_by": {
+          "name": "moderated_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "moderation_message": {
+          "name": "moderation_message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "IDX_POST_FIGURES_AUTHOR": {
+          "name": "IDX_POST_FIGURES_AUTHOR",
+          "columns": [
+            {
+              "expression": "author",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "IDX_POST_FIGURES_FULL_NAME": {
+          "name": "IDX_POST_FIGURES_FULL_NAME",
+          "columns": [
+            {
+              "expression": "to_tsvector('english', \"full_name\")",
+              "asc": true,
+              "isExpression": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "gin",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "figures_author_users_id_fk": {
+          "name": "figures_author_users_id_fk",
+          "tableFrom": "figures",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "author"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "figures_updated_by_users_id_fk": {
+          "name": "figures_updated_by_users_id_fk",
+          "tableFrom": "figures",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "updated_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "figures_moderated_by_users_id_fk": {
+          "name": "figures_moderated_by_users_id_fk",
+          "tableFrom": "figures",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "moderated_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {
+        "Anyone can read": {
+          "name": "Anyone can read",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "",
+          "withCheck": ""
+        },
+        "Only Service role have total control": {
+          "name": "Only Service role have total control",
+          "as": "RESTRICTIVE",
+          "for": "SELECT",
+          "to": [
+            "service_role"
+          ],
+          "using": "",
+          "withCheck": ""
+        }
+      },
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "history.figures": {
+      "name": "figures",
+      "schema": "history",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "original_id": {
+          "name": "original_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "version_number": {
+          "name": "version_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "change_summary": {
+          "name": "change_summary",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_reverted_from": {
+          "name": "is_reverted_from",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "diff": {
+          "name": "diff",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        },
+        "author": {
+          "name": "author",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_by": {
+          "name": "updated_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
+        },
+        "sources": {
+          "name": "sources",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "full_name": {
+          "name": "full_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subtitle": {
+          "name": "subtitle",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "overview": {
+          "name": "overview",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date_of_birth": {
+          "name": "date_of_birth",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date_of_death": {
+          "name": "date_of_death",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "content": {
+          "name": "content",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "portrait": {
+          "name": "portrait",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nationality": {
+          "name": "nationality",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_guilty": {
+          "name": "is_guilty",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "heroism_score": {
+          "name": "heroism_score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "evil_score": {
+          "name": "evil_score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "moderated_by": {
+          "name": "moderated_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "moderation_message": {
+          "name": "moderation_message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "IDX_HISTORY_FIGURES_AUTHOR": {
+          "name": "IDX_HISTORY_FIGURES_AUTHOR",
+          "columns": [
+            {
+              "expression": "author",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "IDX_HISTORY_FIGURES_FULL_NAME": {
+          "name": "IDX_HISTORY_FIGURES_FULL_NAME",
+          "columns": [
+            {
+              "expression": "to_tsvector('english', \"full_name\")",
+              "asc": true,
+              "isExpression": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "gin",
+          "with": {}
+        },
+        "IDX_HISTORY_FIGURES_ORIGINAL": {
+          "name": "IDX_HISTORY_FIGURES_ORIGINAL",
+          "columns": [
+            {
+              "expression": "original_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "IDX_HISTORY_FIGURES_VERSION": {
+          "name": "IDX_HISTORY_FIGURES_VERSION",
+          "columns": [
+            {
+              "expression": "version_number",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "figures_original_id_figures_id_fk": {
+          "name": "figures_original_id_figures_id_fk",
+          "tableFrom": "figures",
+          "tableTo": "figures",
+          "schemaTo": "post",
+          "columnsFrom": [
+            "original_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "figures_author_users_id_fk": {
+          "name": "figures_author_users_id_fk",
+          "tableFrom": "figures",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "author"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "figures_updated_by_users_id_fk": {
+          "name": "figures_updated_by_users_id_fk",
+          "tableFrom": "figures",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "updated_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "figures_moderated_by_users_id_fk": {
+          "name": "figures_moderated_by_users_id_fk",
+          "tableFrom": "figures",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "moderated_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "FK_HISTORY_FIGURES_IS_REVERTED_FROM": {
+          "name": "FK_HISTORY_FIGURES_IS_REVERTED_FROM",
+          "tableFrom": "figures",
+          "tableTo": "figures",
+          "schemaTo": "history",
+          "columnsFrom": [
+            "is_reverted_from"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {
+        "Anyone can read": {
+          "name": "Anyone can read",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "",
+          "withCheck": ""
+        },
+        "Only Service role have total control": {
+          "name": "Only Service role have total control",
+          "as": "RESTRICTIVE",
+          "for": "SELECT",
+          "to": [
+            "service_role"
+          ],
+          "using": "",
+          "withCheck": ""
+        }
+      },
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "post.movement_memberships": {
+      "name": "movement_memberships",
+      "schema": "post",
+      "columns": {
+        "movement_id": {
+          "name": "movement_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "IDX_POST_MOVEMENT_MEMBERSHIPS_USER_ID": {
+          "name": "IDX_POST_MOVEMENT_MEMBERSHIPS_USER_ID",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "movement_memberships_movement_id_movements_id_fk": {
+          "name": "movement_memberships_movement_id_movements_id_fk",
+          "tableFrom": "movement_memberships",
+          "tableTo": "movements",
+          "schemaTo": "post",
+          "columnsFrom": [
+            "movement_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "movement_memberships_user_id_users_id_fk": {
+          "name": "movement_memberships_user_id_users_id_fk",
+          "tableFrom": "movement_memberships",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "CPK_POST_MOVEMENT_MEMBERSHIPS": {
+          "name": "CPK_POST_MOVEMENT_MEMBERSHIPS",
+          "columns": [
+            "movement_id",
+            "user_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {
+        "Anyone can read": {
+          "name": "Anyone can read",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "",
+          "withCheck": ""
+        },
+        "Only Service role have total control": {
+          "name": "Only Service role have total control",
+          "as": "RESTRICTIVE",
+          "for": "SELECT",
+          "to": [
+            "service_role"
+          ],
+          "using": "",
+          "withCheck": ""
+        }
+      },
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "post.movements": {
+      "name": "movements",
+      "schema": "post",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "author": {
+          "name": "author",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "organization": {
+          "name": "organization",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "publisher": {
+          "name": "publisher",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "taken_down_by": {
+          "name": "taken_down_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "taken_down_at": {
+          "name": "taken_down_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "published_at": {
+          "name": "published_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subtitle": {
+          "name": "subtitle",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "overview": {
+          "name": "overview",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "keywords": {
+          "name": "keywords",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "channel": {
+          "name": "channel",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'not_ready'"
+        },
+        "organization_message": {
+          "name": "organization_message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "moderation_message": {
+          "name": "moderation_message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "moderation_level": {
+          "name": "moderation_level",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'secure'"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "UIDX_POST_MOVEMENTS_SLUG": {
+          "name": "UIDX_POST_MOVEMENTS_SLUG",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "IDX_POST_MOVEMENTS_AUTHOR": {
+          "name": "IDX_POST_MOVEMENTS_AUTHOR",
+          "columns": [
+            {
+              "expression": "author",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "IDX_POST_MOVEMENTS_ORGANIZATION": {
+          "name": "IDX_POST_MOVEMENTS_ORGANIZATION",
+          "columns": [
+            {
+              "expression": "organization",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "IDX_POST_MOVEMENTS_TITLE": {
+          "name": "IDX_POST_MOVEMENTS_TITLE",
+          "columns": [
+            {
+              "expression": "to_tsvector('english', \"title\")",
+              "asc": true,
+              "isExpression": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "gin",
+          "with": {}
+        },
+        "IDX_POST_MOVEMENTS_CHANNEL": {
+          "name": "IDX_POST_MOVEMENTS_CHANNEL",
+          "columns": [
+            {
+              "expression": "channel",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "movements_author_users_id_fk": {
+          "name": "movements_author_users_id_fk",
+          "tableFrom": "movements",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "author"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "movements_organization_organizations_id_fk": {
+          "name": "movements_organization_organizations_id_fk",
+          "tableFrom": "movements",
+          "tableTo": "organizations",
+          "schemaTo": "organization",
+          "columnsFrom": [
+            "organization"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "movements_publisher_users_id_fk": {
+          "name": "movements_publisher_users_id_fk",
+          "tableFrom": "movements",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "publisher"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "movements_taken_down_by_users_id_fk": {
+          "name": "movements_taken_down_by_users_id_fk",
+          "tableFrom": "movements",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "taken_down_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "movements_channel_channels_id_fk": {
+          "name": "movements_channel_channels_id_fk",
+          "tableFrom": "movements",
+          "tableTo": "channels",
+          "schemaTo": "post",
+          "columnsFrom": [
+            "channel"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {
+        "Anyone can read": {
+          "name": "Anyone can read",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "",
+          "withCheck": ""
+        },
+        "Only Service role have total control": {
+          "name": "Only Service role have total control",
+          "as": "RESTRICTIVE",
+          "for": "SELECT",
+          "to": [
+            "service_role"
+          ],
+          "using": "",
+          "withCheck": ""
+        }
+      },
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "organization.organization_memberships": {
+      "name": "organization_memberships",
+      "schema": "organization",
+      "columns": {
+        "organization_id": {
+          "name": "organization_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'member'"
+        },
+        "membership_status": {
+          "name": "membership_status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "user_message": {
+          "name": "user_message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "organization_message": {
+          "name": "organization_message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "activated_at": {
+          "name": "activated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "IDX_ORGANIZATION_ORGANIZATION_MEMBERSHIPS_USER_ID": {
+          "name": "IDX_ORGANIZATION_ORGANIZATION_MEMBERSHIPS_USER_ID",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "organization_memberships_organization_id_organizations_id_fk": {
+          "name": "organization_memberships_organization_id_organizations_id_fk",
+          "tableFrom": "organization_memberships",
+          "tableTo": "organizations",
+          "schemaTo": "organization",
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "organization_memberships_user_id_users_id_fk": {
+          "name": "organization_memberships_user_id_users_id_fk",
+          "tableFrom": "organization_memberships",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "CPK_ORGANIZATION_ORGANIZATION_MEMBERSHIPS": {
+          "name": "CPK_ORGANIZATION_ORGANIZATION_MEMBERSHIPS",
+          "columns": [
+            "organization_id",
+            "user_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {
+        "Anyone can read": {
+          "name": "Anyone can read",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "",
+          "withCheck": ""
+        },
+        "Only Service role have total control": {
+          "name": "Only Service role have total control",
+          "as": "RESTRICTIVE",
+          "for": "SELECT",
+          "to": [
+            "service_role"
+          ],
+          "using": "",
+          "withCheck": ""
+        }
+      },
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "organization.organizations": {
+      "name": "organizations",
+      "schema": "organization",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "logo": {
+          "name": "logo",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cover_image": {
+          "name": "cover_image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "IDX_ORGANIZATION_ORGANIZATIONS_CREATED_BY": {
+          "name": "IDX_ORGANIZATION_ORGANIZATIONS_CREATED_BY",
+          "columns": [
+            {
+              "expression": "created_by",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "IDX_ORGANIZATION_ORGANIZATIONS_NAME": {
+          "name": "IDX_ORGANIZATION_ORGANIZATIONS_NAME",
+          "columns": [
+            {
+              "expression": "name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "organizations_created_by_users_id_fk": {
+          "name": "organizations_created_by_users_id_fk",
+          "tableFrom": "organizations",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "created_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {
+        "Anyone can read": {
+          "name": "Anyone can read",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "",
+          "withCheck": ""
+        },
+        "Only Service role have total control": {
+          "name": "Only Service role have total control",
+          "as": "RESTRICTIVE",
+          "for": "SELECT",
+          "to": [
+            "service_role"
+          ],
+          "using": "",
+          "withCheck": ""
+        }
+      },
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "user_management.profiles": {
+      "name": "profiles",
+      "schema": "user_management",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "full_name": {
+          "name": "full_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "first_name": {
+          "name": "first_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_name": {
+          "name": "last_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "display_name": {
+          "name": "display_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "avatar": {
+          "name": "avatar",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cover_image": {
+          "name": "cover_image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "registration_phase": {
+          "name": "registration_phase",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'name'"
+        }
+      },
+      "indexes": {
+        "IDX_USER_MANAGEMENT_PROFILES_FULL_NAME": {
+          "name": "IDX_USER_MANAGEMENT_PROFILES_FULL_NAME",
+          "columns": [
+            {
+              "expression": "full_name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "UIDX_USER_MANAGEMENT_PROFILES_DISPLAY_NAME": {
+          "name": "UIDX_USER_MANAGEMENT_PROFILES_DISPLAY_NAME",
+          "columns": [
+            {
+              "expression": "display_name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "profiles_user_id_users_id_fk": {
+          "name": "profiles_user_id_users_id_fk",
+          "tableFrom": "profiles",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {
+        "Anyone can read": {
+          "name": "Anyone can read",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "",
+          "withCheck": ""
+        },
+        "Only Service role have total control": {
+          "name": "Only Service role have total control",
+          "as": "RESTRICTIVE",
+          "for": "SELECT",
+          "to": [
+            "service_role"
+          ],
+          "using": "",
+          "withCheck": ""
+        }
+      },
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "post.threads": {
+      "name": "threads",
+      "schema": "post",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "author": {
+          "name": "author",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "organization": {
+          "name": "organization",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "publisher": {
+          "name": "publisher",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "taken_down_by": {
+          "name": "taken_down_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "taken_down_at": {
+          "name": "taken_down_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subtitle": {
+          "name": "subtitle",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "overview": {
+          "name": "overview",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "keywords": {
+          "name": "keywords",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "channel": {
+          "name": "channel",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'live'"
+        },
+        "moderation_message": {
+          "name": "moderation_message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "organization_message": {
+          "name": "organization_message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "moderation_level": {
+          "name": "moderation_level",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'secure'"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "UIDX_POST_THREADS_SLUG": {
+          "name": "UIDX_POST_THREADS_SLUG",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "IDX_POST_THREADS_AUTHOR": {
+          "name": "IDX_POST_THREADS_AUTHOR",
+          "columns": [
+            {
+              "expression": "author",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "IDX_POST_THREADS_ORGANIZATION": {
+          "name": "IDX_POST_THREADS_ORGANIZATION",
+          "columns": [
+            {
+              "expression": "organization",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "IDX_POST_THREADS_CHANNEL": {
+          "name": "IDX_POST_THREADS_CHANNEL",
+          "columns": [
+            {
+              "expression": "channel",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "IDX_POST_THREADS_TITLE": {
+          "name": "IDX_POST_THREADS_TITLE",
+          "columns": [
+            {
+              "expression": "to_tsvector('english', \"title\")",
+              "asc": true,
+              "isExpression": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "gin",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "threads_author_users_id_fk": {
+          "name": "threads_author_users_id_fk",
+          "tableFrom": "threads",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "author"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "threads_organization_organizations_id_fk": {
+          "name": "threads_organization_organizations_id_fk",
+          "tableFrom": "threads",
+          "tableTo": "organizations",
+          "schemaTo": "organization",
+          "columnsFrom": [
+            "organization"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "threads_publisher_users_id_fk": {
+          "name": "threads_publisher_users_id_fk",
+          "tableFrom": "threads",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "publisher"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "threads_taken_down_by_users_id_fk": {
+          "name": "threads_taken_down_by_users_id_fk",
+          "tableFrom": "threads",
+          "tableTo": "users",
+          "schemaTo": "auth",
+          "columnsFrom": [
+            "taken_down_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "threads_channel_channels_id_fk": {
+          "name": "threads_channel_channels_id_fk",
+          "tableFrom": "threads",
+          "tableTo": "channels",
+          "schemaTo": "post",
+          "columnsFrom": [
+            "channel"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {
+        "Anyone can read": {
+          "name": "Anyone can read",
+          "as": "PERMISSIVE",
+          "for": "SELECT",
+          "to": [
+            "anon",
+            "authenticated"
+          ],
+          "using": "",
+          "withCheck": ""
+        },
+        "Only Service role have total control": {
+          "name": "Only Service role have total control",
+          "as": "RESTRICTIVE",
+          "for": "SELECT",
+          "to": [
+            "service_role"
+          ],
+          "using": "",
+          "withCheck": ""
+        }
+      },
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    }
+  },
+  "enums": {},
+  "schemas": {
+    "history": "history",
+    "organization": "organization",
+    "post": "post",
+    "user_management": "user_management"
+  },
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

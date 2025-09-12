@@ -1,3 +1,5 @@
+"use server";
+
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { protectedRoutes } from "../../configs/app";
@@ -46,6 +48,38 @@ export async function updateSession(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  // Redirect to registration page if user hasn't finished their registration phase
+  if (user) {
+    const response = await supabase
+      .schema("user_management")
+      .from("profiles")
+      .select("registration_phase")
+      .eq("user_id", user.id)
+      .limit(1);
+
+    if (response) {
+      const profile = response?.data?.[0];
+
+      if (
+        profile?.registration_phase !== "completed" &&
+        !request.nextUrl.pathname.startsWith("/auth/registration")
+      ) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/auth/registration";
+        return NextResponse.redirect(url);
+      }
+
+      if (
+        profile?.registration_phase === "completed" &&
+        request.nextUrl.pathname.startsWith("/auth/registration")
+      ) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/";
+        return NextResponse.redirect(url);
+      }
+    }
+  }
 
   // Protected Routes
   if (

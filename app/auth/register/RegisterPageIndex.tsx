@@ -66,7 +66,7 @@ const RegisterPageIndex = ({
 
   const resetError = () => {
     setErrorState(null);
-    router.replace("/auth", undefined);
+    router.replace("/auth/register", undefined);
   };
 
   // Loading State

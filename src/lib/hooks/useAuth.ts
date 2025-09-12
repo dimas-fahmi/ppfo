@@ -29,8 +29,13 @@ export function useSignIn() {
       router.replace("/auth");
     },
     onSuccess: (session) => {
-      queryClient.setQueryData(["session"], session);
+      queryClient.setQueryData(["auth", "session"], session);
       router.push("/");
+    },
+    onSettled: (_data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["auth", "session"],
+      });
     },
     onError: (error: AuthError & { email: string }) => {
       router.replace(
@@ -82,8 +87,11 @@ export function useSignOut() {
 
   return useMutation({
     mutationFn: () => signOut(),
-    onSuccess: () => {
-      queryClient.setQueryData(["session"], null);
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["auth"],
+        exact: false,
+      });
     },
   });
 }

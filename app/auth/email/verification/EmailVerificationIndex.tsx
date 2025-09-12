@@ -109,9 +109,6 @@ const EmailVerificationIndex = () => {
     onSettled: () => {
       refetch();
     },
-    onError: (error) => {
-      console.log(error);
-    },
   });
 
   return (

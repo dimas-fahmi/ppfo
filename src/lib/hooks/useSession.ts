@@ -1,3 +1,5 @@
+"use client";
+
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { createClient } from "../supabase/utils/client";
 import { useEffect } from "react";
@@ -10,7 +12,7 @@ export const getSession = async () => {
     throw error;
   }
 
-  return data;
+  return data.session;
 };
 
 export const useSession = () => {
@@ -30,12 +32,12 @@ export const useSession = () => {
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      queryClient.setQueryData(["auth", "session"], session ?? null);
+    } = supabase.auth.onAuthStateChange((_event, _session) => {
+      sessionQuery.refetch();
     });
 
     return () => subscription.unsubscribe();
-  }, [queryClient, supabase]);
+  }, [queryClient, supabase, sessionQuery]);
 
   return sessionQuery;
 };
