@@ -7,6 +7,7 @@ export const mutateProfile = async (
   try {
     const response = await fetch("/api/users/profiles", {
       method: "PATCH",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(req),
     });
 
