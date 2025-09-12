@@ -3,7 +3,7 @@ import { createResponse } from "@/src/lib/utils/createResponse";
 import { db } from "@/src/db";
 import { eq } from "drizzle-orm";
 import { profiles } from "@/src/db/schema/profiles";
-import { UsersProfile } from "../profiles/route";
+import { UsersProfile } from "../profiles/get";
 
 const PATH = "API_USERS_USERNAME";
 
