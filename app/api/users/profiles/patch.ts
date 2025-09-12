@@ -88,16 +88,6 @@ export async function usersProfilePatch(req: NextRequest) {
     );
   }
 
-  // Prevent updating forbiden fields
-  if (newValues?.email) {
-    return createResponse(
-      403,
-      "access_denied",
-      "Can't update email with this endpoint",
-      undefined
-    );
-  }
-
   // Execute
   try {
     const response = await db
