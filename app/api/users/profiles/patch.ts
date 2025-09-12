@@ -10,6 +10,7 @@ import { createClient } from "@/src/lib/supabase/utils/server";
 import { prettifyError } from "zod";
 import { profileSchema } from "@/src/lib/zodSchema/profileSchema";
 import { eq } from "drizzle-orm";
+import { PostgresError } from "postgres";
 
 const PATH = "API_USERS_PROFILES_PATCH";
 
@@ -116,6 +117,18 @@ export async function usersProfilePatch(req: NextRequest) {
       undefined
     );
   } catch (error) {
+    // Handle unique constraint violation (e.g., username/email uniqueness)
+    if ((error as PostgresError)?.code === "23505") {
+      return createResponse(
+        409,
+        "conflict",
+        "Value already exists (unique constraint violation)",
+        undefined,
+        true,
+        `${PATH}:${(error as PostgresError)?.detail ?? "unique_violation"}`
+      );
+    }
+
     return createResponse(
       500,
       "unknown_error",
