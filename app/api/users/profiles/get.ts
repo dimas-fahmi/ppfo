@@ -41,10 +41,17 @@ export async function usersProfileGet(request: NextRequest) {
       .from(profiles)
       .where(eq(profiles.userId, id));
 
-    const result: UsersProfile = {
-      ...response[0],
-    };
-    result.email = undefined;
+    if (!response.length) {
+      return createResponse(
+        404,
+        "not_found",
+        `profile ${id} not found`,
+        undefined
+      );
+    }
+
+    const { email: _omit, ...rest } = response[0] as SelectProfiles;
+    const result: UsersProfile = { ...rest, email: undefined };
 
     return createResponse(200, "success", `fetched ${id}`, result);
   } catch (error) {
