@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import NamePhase from "./phase/NamePhase";
 import AvatarPhase from "./phase/AvatarPhase";
 import ConfirmationPhase from "./phase/ConfirmationPhase";
+import { useRouter } from "next/navigation";
 
 const RegistrationPageIndex = () => {
   // Phase
@@ -21,7 +22,13 @@ const RegistrationPageIndex = () => {
   const [label, setLabel] = useState("Wait a moment");
   const [render, setRender] = useState<React.ReactNode>(<>...</>);
 
+  const router = useRouter();
+
   useEffect(() => {
+    if (phase === "completed") {
+      router.refresh();
+    }
+
     switch (phase) {
       case "name":
         setHeader("LET'S BUILD YOUR PROFILE, IT WON'T TAKE LONG");
@@ -34,7 +41,7 @@ const RegistrationPageIndex = () => {
         setRender(<AvatarPhase />);
         break;
       case "confirmation":
-        setHeader(`Welcome to the Press & Freedom Organization`);
+        setHeader(`Welcome to the Press & Public Freedom Organization`);
         setLabel("It's nice to have you aboard");
         setRender(<ConfirmationPhase />);
         break;
@@ -42,7 +49,7 @@ const RegistrationPageIndex = () => {
         setRender(<>...</>);
         break;
     }
-  }, [phase, setRender, firstName]);
+  }, [phase, setRender, firstName, router]);
 
   return (
     <div className="max-w-md p-4 overflow-y-scroll scrollbar-none h-full max-h-dvh">

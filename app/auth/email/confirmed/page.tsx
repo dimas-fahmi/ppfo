@@ -46,7 +46,7 @@ const EmailConfirmed = ({
       </header>
 
       <Button className="w-full mb-4" type="submit" asChild>
-        <Link href={"/auth"}>To Sign In Page</Link>
+        <Link href={"/auth"}>Sign In</Link>
       </Button>
 
       <div className="text-sm flex justify-between items-center">

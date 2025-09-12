@@ -98,6 +98,7 @@ const AvatarPhase = () => {
         profileMutate({
           id: profile?.userId,
           newValues: {
+            avatar: preview,
             registrationPhase: "confirmation",
           },
         });
