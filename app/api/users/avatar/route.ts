@@ -87,9 +87,21 @@ export async function PATCH(req: NextRequest) {
   const buffer = Buffer.from(arrayBuffer);
 
   // Process with sharp (resize, compress, convert to WebP)
-  const processedImage = await sharp(buffer)
-    .webp({ quality: 50 }) // compress & convert
-    .toBuffer();
+  let processedImage;
+  try {
+    processedImage = await sharp(buffer)
+      .webp({ quality: 50 }) // compress & convert
+      .toBuffer();
+  } catch (_error) {
+    return createResponse(
+      400,
+      "bad_request",
+      "invalid image content",
+      null,
+      true,
+      PATH
+    );
+  }
 
   // Execution
   try {
