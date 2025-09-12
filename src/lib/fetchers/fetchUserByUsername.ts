@@ -5,7 +5,9 @@ export const fetchUserByUsername = async (
   username: string
 ): Promise<StandardizeResponse<UsersProfile>> => {
   try {
-    const response = await fetch(`/api/users/username?username=${username}`);
+    const response = await fetch(`/api/users/username?username=${username}`, {
+      cache: "no-store",
+    });
 
     const result = await response.json();
 
