@@ -4,10 +4,13 @@ export const getCroppedImg = async (
 ): Promise<{ url: string; blob: Blob }> => {
   const image: HTMLImageElement = await new Promise((resolve, reject) => {
     const img = new Image();
+    img.crossOrigin = "anonymous";
     img.src = imageSrc;
     img.onload = () => resolve(img);
     img.onerror = (err) => reject(err);
   });
+
+  if (typeof image.decode === "function") await image.decode();
 
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
