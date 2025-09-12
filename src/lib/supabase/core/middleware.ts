@@ -54,29 +54,30 @@ export async function updateSession(request: NextRequest) {
     const response = await supabase
       .schema("user_management")
       .from("profiles")
-      .select("*")
+      .select("registration_phase")
       .eq("user_id", user.id)
       .limit(1);
 
-    const profile = response?.data?.[0];
-    console.log(profile);
+    if (response) {
+      const profile = response?.data?.[0];
 
-    if (
-      profile?.registration_phase !== "completed" &&
-      !request.nextUrl.pathname.startsWith("/auth/registration")
-    ) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/auth/registration";
-      return NextResponse.redirect(url);
-    }
+      if (
+        profile?.registration_phase !== "completed" &&
+        !request.nextUrl.pathname.startsWith("/auth/registration")
+      ) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/auth/registration";
+        return NextResponse.redirect(url);
+      }
 
-    if (
-      profile?.registration_phase === "completed" &&
-      request.nextUrl.pathname.startsWith("/auth/registration")
-    ) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/";
-      return NextResponse.redirect(url);
+      if (
+        profile?.registration_phase === "completed" &&
+        request.nextUrl.pathname.startsWith("/auth/registration")
+      ) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/";
+        return NextResponse.redirect(url);
+      }
     }
   }
 
