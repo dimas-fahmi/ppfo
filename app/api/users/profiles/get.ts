@@ -55,15 +55,7 @@ export async function usersProfileGet(request: NextRequest) {
 
     return createResponse(200, "success", `fetched ${id}`, result);
   } catch (error) {
-    if (error instanceof Error) {
-      return createResponse(
-        500,
-        "unknown_error",
-        error.message,
-        undefined,
-        true,
-        path
-      );
-    }
+    const message = error instanceof Error ? error.message : "Unknown error";
+    return createResponse(500, "unknown_error", message, undefined, true, path);
   }
 }
