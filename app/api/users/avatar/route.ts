@@ -127,7 +127,7 @@ export async function PATCH(req: NextRequest) {
       let uploadedImage: PutBlobResult;
       try {
         uploadedImage = await put(
-          `/ppfo/avatars/${profile.userId}_avatar_${crypto.randomUUID()}.webp`,
+          `ppfo/avatars/${profile.userId}_avatar_${crypto.randomUUID()}.webp`,
           processedImage,
           {
             access: "public",
@@ -148,7 +148,7 @@ export async function PATCH(req: NextRequest) {
           .set({ avatar: newAvatar })
           .where(eq(profiles.userId, userId));
       } catch (_error) {
-        throw new Error("Failed to ");
+        throw new Error("Failed to update avatar in database");
       }
 
       return newAvatar;
