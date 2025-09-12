@@ -1,4 +1,4 @@
-import { UsersProfile } from "@/app/api/users/profiles/get";
+import type { UsersProfile } from "@/app/api/users/profiles/get";
 import { StandardizeResponse } from "../utils/createResponse";
 
 export const fetchUserByUsername = async (
