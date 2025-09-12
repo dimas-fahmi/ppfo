@@ -36,6 +36,14 @@ export async function usersProfilePatch(req: NextRequest) {
   }
 
   const { id, newValues } = body;
+  if (!id || !newValues || Object.keys(newValues).length === 0) {
+    return createResponse(
+      400,
+      "bad_request",
+      "Missing id or empty newValues",
+      undefined
+    );
+  }
 
   //  Validate Session
   const supabase = await createClient();
