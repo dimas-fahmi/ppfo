@@ -79,7 +79,7 @@ const NamePhase = () => {
     <form
       className="space-y-4"
       onSubmit={handleSubmit((data) => {
-        if (!session || !isValid) return;
+        if (!session || !isValid || !availability) return;
         const request: UsersProfilePatchRequest = {
           id: session.user.id,
           newValues: { ...data, registrationPhase: "avatar" },
