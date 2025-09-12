@@ -19,7 +19,7 @@ export const profiles = userManagement
     "profiles",
     {
       userId: uuid("user_id")
-        .references(() => authUsers.id)
+        .references(() => authUsers.id, { onDelete: "cascade" })
         .primaryKey(),
       username: text("username"),
       firstName: text("first_name"),
