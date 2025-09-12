@@ -154,9 +154,12 @@ const AvatarPhase = () => {
                 variant={"outline"}
                 size={"sm"}
                 onClick={() => {
-                  setPreview(
-                    "https://images.pexels.com/photos/1812634/pexels-photo-1812634.jpeg"
-                  );
+                  if (profile) {
+                    profileMutate({
+                      id: profile?.userId,
+                      newValues: { registrationPhase: "confirmation" },
+                    });
+                  }
                 }}
               >
                 Skip
