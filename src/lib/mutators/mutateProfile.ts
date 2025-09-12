@@ -1,5 +1,5 @@
-import { UsersProfilePatchRequest } from "@/app/api/users/profiles/patch";
-import { StandardizeResponse } from "../utils/createResponse";
+import type { UsersProfilePatchRequest } from "@/app/api/users/profiles/patch";
+import type { StandardizeResponse } from "../utils/createResponse";
 
 export const mutateProfile = async (
   req: UsersProfilePatchRequest
