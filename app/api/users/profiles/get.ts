@@ -50,8 +50,7 @@ export async function usersProfileGet(request: NextRequest) {
       );
     }
 
-    const { email: _omit, ...rest } = response[0] as SelectProfiles;
-    const result: UsersProfile = { ...rest, email: undefined };
+    const result = response[0] as SelectProfiles;
 
     return createResponse(200, "success", `fetched ${id}`, result);
   } catch (error) {
