@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import React, { Suspense, use } from "react";
 import ConfirmPageIndex from "./ConfirmPageIndex";
+import Loader from "@/src/ui/components/Loader";
 
 const ConfirmPage = ({
   searchParams,
@@ -27,7 +28,7 @@ const ConfirmPage = ({
   const processed_url = `${origin}${pathname}?token=${token}&type=${type}&redirect_to=${app_origin}/auth/email/confirmed?email=${params?.email}`;
 
   return (
-    <Suspense fallback={<>...</>}>
+    <Suspense fallback={<Loader />}>
       <ConfirmPageIndex
         processed_url={processed_url}
         email={params?.email ?? "undefined"}

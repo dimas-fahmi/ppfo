@@ -1,5 +1,6 @@
 import { useProfile } from "@/src/lib/hooks/useProfile";
 import { useMutateUser } from "@/src/lib/hooks/useUser";
+import Loader from "@/src/ui/components/Loader";
 import { Avatar, AvatarImage } from "@/src/ui/shadcn/components/ui/avatar";
 import { Button } from "@/src/ui/shadcn/components/ui/button";
 import React from "react";
@@ -8,7 +9,11 @@ const ConfirmationPhase = () => {
   const { data: profile, isLoading } = useProfile();
   const userMutation = useMutateUser();
 
-  return (
+  return isLoading ? (
+    <div className="relative">
+      <Loader classes={{ mediaClassNames: "w-48" }} />
+    </div>
+  ) : (
     <div className="bg-secondary p-4 rounded-md">
       {/* Header */}
       <div className="flex flex-col justify-center items-center">
@@ -36,9 +41,8 @@ const ConfirmationPhase = () => {
             if (!profile) return;
             userMutation.mutate({ data: { registration_phase: "completed" } });
           }}
-          disabled={isLoading}
         >
-          {isLoading ? "Wait a moment" : "Complete Registration"}
+          Complete Registration
         </Button>
       </div>
     </div>
