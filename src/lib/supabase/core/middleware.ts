@@ -3,7 +3,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { protectedRoutes } from "../../configs/app";
-import { OurUserMetadata } from "../../types/Supabase";
+import type { OurUserMetadata } from "../../types/Supabase";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
