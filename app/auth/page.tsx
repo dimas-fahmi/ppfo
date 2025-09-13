@@ -2,6 +2,7 @@ import { generateMetadata } from "@/src/lib/utils/generateMetadata";
 import { Metadata } from "next";
 import React, { Suspense } from "react";
 import AuthPageIndex from "./AuthPageIndex";
+import Loader from "@/src/ui/components/Loader";
 
 export const metadata: Metadata = generateMetadata({
   title: "Continue to PPFO",
@@ -17,7 +18,7 @@ const AuthPage = ({
   }>;
 }) => {
   return (
-    <Suspense fallback={<>...</>}>
+    <Suspense fallback={<Loader />}>
       <AuthPageIndex searchParams={searchParams} />
     </Suspense>
   );

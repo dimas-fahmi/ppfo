@@ -8,11 +8,14 @@ import NamePhase from "./phase/NamePhase";
 import AvatarPhase from "./phase/AvatarPhase";
 import ConfirmationPhase from "./phase/ConfirmationPhase";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/src/lib/hooks/useUser";
+import Loader from "@/src/ui/components/Loader";
 
 const RegistrationPageIndex = () => {
   // Phase
   const { data: profile } = useProfile();
-  const phase = profile?.registrationPhase ?? null;
+  const { data: user } = useUser();
+  const phase = user?.user_metadata?.registration_phase;
   const firstName = profile?.firstName;
 
   // Render
@@ -20,7 +23,7 @@ const RegistrationPageIndex = () => {
     "LET'S BUILD YOUR PROFILE, IT WON'T TAKE LONG"
   );
   const [label, setLabel] = useState("Wait a moment");
-  const [render, setRender] = useState<React.ReactNode>(<>...</>);
+  const [render, setRender] = useState<React.ReactNode>(<Loader />);
 
   const router = useRouter();
 
@@ -46,7 +49,7 @@ const RegistrationPageIndex = () => {
         setRender(<ConfirmationPhase />);
         break;
       default:
-        setRender(<>...</>);
+        setRender(<Loader classes={{ mediaClassNames: "w-48" }} />);
         break;
     }
   }, [phase, setRender, firstName, router]);

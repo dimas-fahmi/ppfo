@@ -1,0 +1,1 @@
+ALTER TABLE "user_management"."profiles" DROP COLUMN "registration_phase";

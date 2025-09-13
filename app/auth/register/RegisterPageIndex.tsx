@@ -172,6 +172,7 @@ const RegisterPageIndex = ({
                     : ""
                 } border rounded-md px-4 py-2 w-full`}
                 placeholder="Email"
+                autoComplete="off"
               />
               <p
                 className={`${
@@ -199,6 +200,7 @@ const RegisterPageIndex = ({
                     : ""
                 } border rounded-md px-4 py-2 w-full`}
                 placeholder="Password"
+                autoComplete="off"
               />
               <p
                 className={`${
@@ -226,6 +228,7 @@ const RegisterPageIndex = ({
                     : ""
                 } border rounded-md px-4 py-2 w-full`}
                 placeholder="Password Confirmation"
+                autoComplete="off"
               />
               <p
                 className={`${

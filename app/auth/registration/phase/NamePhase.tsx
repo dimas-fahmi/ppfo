@@ -2,6 +2,7 @@ import { UsersProfilePatchRequest } from "@/app/api/users/profiles/patch";
 import { fetchUserByUsername } from "@/src/lib/fetchers/fetchUserByUsername";
 import { useProfileMutate } from "@/src/lib/hooks/useProfile";
 import { useSession } from "@/src/lib/hooks/useSession";
+import { useMutateUser } from "@/src/lib/hooks/useUser";
 import { profileSchema } from "@/src/lib/zodSchema/profileSchema";
 import { Button } from "@/src/ui/shadcn/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -74,6 +75,7 @@ const NamePhase = () => {
 
   // Mutation
   const { mutate } = useProfileMutate();
+  const userMutation = useMutateUser();
 
   return (
     <form
@@ -82,10 +84,18 @@ const NamePhase = () => {
         if (!session || !isValid || !availability) return;
         const request: UsersProfilePatchRequest = {
           id: session.user.id,
-          newValues: { ...data, registrationPhase: "avatar" },
+          newValues: { ...data },
         };
 
-        mutate(request);
+        mutate(request, {
+          onSuccess: () => {
+            userMutation.mutate({
+              data: {
+                registration_phase: "avatar",
+              },
+            });
+          },
+        });
       })}
     >
       {/* First & Last Name */}
