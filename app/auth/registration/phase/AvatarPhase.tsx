@@ -9,6 +9,7 @@ import { mutateUserAvatar } from "@/src/lib/mutators/mutateUserAvatar";
 import { useProfile, useProfileMutate } from "@/src/lib/hooks/useProfile";
 import { Loader } from "lucide-react";
 import { ALLOWED_MIME_TYPES, MAX_SIZE } from "@/src/lib/configs/app";
+import { useMutateUser } from "@/src/lib/hooks/useUser";
 
 const AvatarPhase = () => {
   // Image Preview
@@ -93,21 +94,24 @@ const AvatarPhase = () => {
     onMutate: () => {
       setLoading(true);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       if (profile) {
-        profileMutate({
-          id: profile?.userId,
-          newValues: {
-            avatar: preview,
-            registrationPhase: "confirmation",
-          },
-        });
+        if (data?.result) {
+          profileMutate({
+            id: profile?.userId,
+            newValues: {
+              avatar: data?.result,
+            },
+          });
+        }
       }
     },
     onError: () => {
       setLoading(false);
     },
   });
+
+  const userMutation = useMutateUser();
 
   return (
     <div className="flex items-center my-8 gap-4">
@@ -156,10 +160,6 @@ const AvatarPhase = () => {
                 size={"sm"}
                 onClick={() => {
                   if (profile) {
-                    profileMutate({
-                      id: profile?.userId,
-                      newValues: { registrationPhase: "confirmation" },
-                    });
                   }
                 }}
               >
@@ -172,6 +172,11 @@ const AvatarPhase = () => {
                 size={"sm"}
                 onClick={() => {
                   mutate(blob);
+                  userMutation.mutate({
+                    data: {
+                      registration_phase: "confirmation",
+                    },
+                  });
                 }}
               >
                 Save

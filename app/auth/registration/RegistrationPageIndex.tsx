@@ -8,11 +8,13 @@ import NamePhase from "./phase/NamePhase";
 import AvatarPhase from "./phase/AvatarPhase";
 import ConfirmationPhase from "./phase/ConfirmationPhase";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/src/lib/hooks/useUser";
 
 const RegistrationPageIndex = () => {
   // Phase
   const { data: profile } = useProfile();
-  const phase = profile?.registrationPhase ?? null;
+  const { data: user } = useUser();
+  const phase = user?.user_metadata?.registration_phase;
   const firstName = profile?.firstName;
 
   // Render

@@ -1,11 +1,12 @@
-import { useProfile, useProfileMutate } from "@/src/lib/hooks/useProfile";
+import { useProfile } from "@/src/lib/hooks/useProfile";
+import { useMutateUser } from "@/src/lib/hooks/useUser";
 import { Avatar, AvatarImage } from "@/src/ui/shadcn/components/ui/avatar";
 import { Button } from "@/src/ui/shadcn/components/ui/button";
 import React from "react";
 
 const ConfirmationPhase = () => {
-  const { data: profile } = useProfile();
-  const { mutate } = useProfileMutate();
+  const { data: profile, isLoading } = useProfile();
+  const userMutation = useMutateUser();
 
   return (
     <div className="bg-secondary p-4 rounded-md">
@@ -33,15 +34,11 @@ const ConfirmationPhase = () => {
           className="mt-4 block w-full"
           onClick={() => {
             if (!profile) return;
-            mutate({
-              id: profile?.userId,
-              newValues: {
-                registrationPhase: "completed",
-              },
-            });
+            userMutation.mutate({ data: { registration_phase: "completed" } });
           }}
+          disabled={isLoading}
         >
-          Complete Registration
+          {isLoading ? "Wait a moment" : "Complete Registration"}
         </Button>
       </div>
     </div>

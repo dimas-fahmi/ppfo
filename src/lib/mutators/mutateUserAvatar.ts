@@ -1,4 +1,8 @@
-export const mutateUserAvatar = async (blob: Blob) => {
+import { StandardizeResponse } from "../utils/createResponse";
+
+export const mutateUserAvatar = async (
+  blob: Blob
+): Promise<StandardizeResponse<string>> => {
   try {
     const formData = new FormData();
     formData.append("image", blob);
