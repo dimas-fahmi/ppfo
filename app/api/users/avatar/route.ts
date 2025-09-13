@@ -117,10 +117,15 @@ export async function PATCH(req: NextRequest) {
 
       if (profile.avatar) {
         // Todo: Delete existing avatar
-        try {
-          await del(profile.avatar);
-        } catch (_error) {
-          throw new Error("Failed to delete old avatar");
+        if (
+          profile.avatar !==
+          "https://zvgpixcwdvbogm3e.public.blob.vercel-storage.com/ppfo/avatars/avatar_placeholder.png"
+        ) {
+          try {
+            await del(profile.avatar);
+          } catch (_error) {
+            throw new Error("Failed to delete old avatar");
+          }
         }
       }
 

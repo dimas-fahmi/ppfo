@@ -8,10 +8,18 @@ import { useMutation } from "@tanstack/react-query";
 import { mutateUserAvatar } from "@/src/lib/mutators/mutateUserAvatar";
 import { useProfile, useProfileMutate } from "@/src/lib/hooks/useProfile";
 import { Loader } from "lucide-react";
-import { ALLOWED_MIME_TYPES, MAX_SIZE } from "@/src/lib/configs/app";
+import {
+  ALLOWED_MIME_TYPES,
+  DEFAULT_AVATAR_PLACEHOLDER,
+  MAX_SIZE,
+} from "@/src/lib/configs/app";
 import { useMutateUser } from "@/src/lib/hooks/useUser";
 
-const AvatarPhase = () => {
+const AvatarPhase = ({
+  setAvatar,
+}: {
+  setAvatar: React.Dispatch<React.SetStateAction<string | null>>;
+}) => {
   // Image Preview
   const [preview, setPreview] = useState(
     "https://images.pexels.com/photos/1812634/pexels-photo-1812634.jpeg"
@@ -85,8 +93,7 @@ const AvatarPhase = () => {
     }
   };
 
-  const { data: profile } = useProfile();
-  const { mutate: profileMutate } = useProfileMutate();
+  const { data: profile, refetch } = useProfile();
 
   // Mutation
   const { mutate } = useMutation({
@@ -97,12 +104,7 @@ const AvatarPhase = () => {
     onSuccess: (data) => {
       if (profile) {
         if (data?.result) {
-          profileMutate({
-            id: profile?.userId,
-            newValues: {
-              avatar: data?.result,
-            },
-          });
+          refetch();
         }
       }
     },
@@ -112,6 +114,7 @@ const AvatarPhase = () => {
   });
 
   const userMutation = useMutateUser();
+  const profileMutation = useProfileMutate();
 
   return (
     <div className="flex items-center my-8 gap-4">
@@ -119,6 +122,8 @@ const AvatarPhase = () => {
       <div>
         <Image
           width={82}
+          placeholder="blur"
+          blurDataURL={DEFAULT_AVATAR_PLACEHOLDER}
           height={82}
           src={preview}
           alt="profile"
@@ -160,6 +165,23 @@ const AvatarPhase = () => {
                 size={"sm"}
                 onClick={() => {
                   if (profile) {
+                    setAvatar(preview);
+                    profileMutation.mutate(
+                      {
+                        id: profile.userId,
+                        newValues: {
+                          avatar:
+                            "https://zvgpixcwdvbogm3e.public.blob.vercel-storage.com/ppfo/avatars/avatar_placeholder.png",
+                        },
+                      },
+                      {
+                        onSuccess: () => {
+                          userMutation.mutate({
+                            data: { registration_phase: "confirmation" },
+                          });
+                        },
+                      }
+                    );
                   }
                 }}
               >
@@ -172,6 +194,7 @@ const AvatarPhase = () => {
                 size={"sm"}
                 onClick={() => {
                   mutate(blob);
+                  setAvatar(preview);
                   userMutation.mutate({
                     data: {
                       registration_phase: "confirmation",

@@ -38,11 +38,14 @@ const NamePhase = () => {
   // Query Username availability
   const [availability, setAvailability] = useState(false);
   const [usernameKey, setUsernameKey] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
 
   // Debouncer
   useEffect(() => {
+    setIsTyping(true);
     const debouncer = setTimeout(() => {
       setUsernameKey(username);
+      setIsTyping(false);
     }, 700);
 
     return () => clearTimeout(debouncer);
@@ -209,7 +212,7 @@ const NamePhase = () => {
       <Button
         className="w-full"
         type="submit"
-        disabled={!isValid || !availability}
+        disabled={!isValid || !availability || isTyping}
       >
         Continue
       </Button>
