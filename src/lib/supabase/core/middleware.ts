@@ -4,7 +4,6 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { protectedRoutes } from "../../configs/app";
 import { OurUserMetadata } from "../../types/Supabase";
-import { revalidatePath } from "next/cache";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -58,7 +57,6 @@ export async function updateSession(request: NextRequest) {
       await supabase.auth.updateUser({
         data: { registration_phase: "name" },
       });
-      revalidatePath("/auth", "layout");
     }
 
     const registrationPhase = (user.user_metadata as OurUserMetadata)
