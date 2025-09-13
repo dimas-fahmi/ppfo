@@ -87,10 +87,13 @@ const NamePhase = () => {
           newValues: { ...data },
         };
 
-        mutate(request);
-        userMutation.mutate({
-          data: {
-            registration_phase: "avatar",
+        mutate(request, {
+          onSuccess: () => {
+            userMutation.mutate({
+              data: {
+                registration_phase: "avatar",
+              },
+            });
           },
         });
       })}
