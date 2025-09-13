@@ -11,7 +11,7 @@ export const getUser = async () => {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
   if (error) throw error;
-  return data.user as OurUser;
+  return data?.user as OurUser | null;
 };
 
 export const useUser = () => {
