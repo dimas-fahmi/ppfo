@@ -14,7 +14,7 @@ import Loader from "@/src/ui/components/Loader";
 const RegistrationPageIndex = () => {
   // Phase
   const { data: profile } = useProfile();
-  const { data: user } = useUser();
+  const { data: user, isFetched, refetch } = useUser();
   const phase = user?.user_metadata?.registration_phase;
   const firstName = profile?.firstName;
 
@@ -24,10 +24,14 @@ const RegistrationPageIndex = () => {
   );
   const [label, setLabel] = useState("Wait a moment");
   const [render, setRender] = useState<React.ReactNode>(<Loader />);
+  const [storedAvatar, setStoredAvatar] = useState<string | null>(null);
 
   const router = useRouter();
 
   useEffect(() => {
+    if (!phase && isFetched) {
+      refetch();
+    }
     if (phase === "completed") {
       router.refresh();
     }
@@ -41,18 +45,18 @@ const RegistrationPageIndex = () => {
       case "avatar":
         setHeader(`Nice to have you aboard ${firstName}, LAST ONE!`);
         setLabel(`Upload something that'll represent you`);
-        setRender(<AvatarPhase />);
+        setRender(<AvatarPhase setAvatar={setStoredAvatar} />);
         break;
       case "confirmation":
         setHeader(`Welcome to the Press & Public Freedom Organization`);
         setLabel("It's nice to have you aboard");
-        setRender(<ConfirmationPhase />);
+        setRender(<ConfirmationPhase avatar={storedAvatar} />);
         break;
       default:
         setRender(<Loader classes={{ mediaClassNames: "w-48" }} />);
         break;
     }
-  }, [phase, setRender, firstName, router]);
+  }, [phase, setRender, firstName, router, refetch, isFetched, storedAvatar]);
 
   return (
     <div className="max-w-md p-4 overflow-y-scroll scrollbar-none h-full max-h-dvh">
