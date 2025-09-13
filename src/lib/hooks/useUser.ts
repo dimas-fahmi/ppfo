@@ -46,7 +46,7 @@ export const useMutateUser = () => {
       const oldData = data;
 
       if (oldData) {
-        queryClient.setQueryData(["auth", "users"], () => {
+        queryClient.setQueryData(["auth", "user"], () => {
           const newData: OurUser = {
             ...oldData,
             user_metadata: { ...oldData, ...mutateData?.data },
