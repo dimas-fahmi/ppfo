@@ -8,6 +8,8 @@ import { eq } from "drizzle-orm";
 import { profiles } from "@/src/db/schema/profiles";
 import { del, put, PutBlobResult } from "@vercel/blob";
 
+export const runtime = "nodejs";
+
 const PATH = "API_USERS_IMAGE_PATH";
 
 export async function PATCH(req: NextRequest) {
