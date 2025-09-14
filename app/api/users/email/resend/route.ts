@@ -61,7 +61,6 @@ export async function POST(request: NextRequest) {
   }
 
   if (result.emailConfirmedAt && body.type === "signup") {
-    console.log("ALREADY_CONFIRMED");
     return NextResponse.json({ error: "ALREADY_CONFIRMED" }, { status: 400 });
   }
 
