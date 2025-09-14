@@ -16,7 +16,7 @@ import {
   CircleX,
   LoaderCircle,
 } from "lucide-react";
-import { useSignUp } from "@/src/lib/hooks/useAuth";
+import { useOAuth, useSignUp } from "@/src/lib/hooks/useAuth";
 
 export const registrationSchema = z
   .object({
@@ -106,6 +106,7 @@ const RegisterPageIndex = ({
 
   // Mutation
   const signUp = useSignUp();
+  const oAuth = useOAuth();
 
   return (
     <div className="max-w-md p-4 overflow-y-scroll scrollbar-none h-full max-h-dvh">
@@ -256,13 +257,31 @@ const RegisterPageIndex = ({
           <Link href={"/auth/recovery"}>Forgot your password?</Link>
         </div>
         <div className="grid grid-cols-3 gap-4">
-          <Button type="button" variant={"outline"}>
+          <Button
+            type="button"
+            variant={"outline"}
+            onClick={() => {
+              oAuth.mutate("google");
+            }}
+          >
             <BsGoogle />
           </Button>
-          <Button type="button" variant={"outline"}>
+          <Button
+            type="button"
+            variant={"outline"}
+            onClick={() => {
+              oAuth.mutate("github");
+            }}
+          >
             <BsGithub />
           </Button>
-          <Button type="button" variant={"outline"}>
+          <Button
+            type="button"
+            variant={"outline"}
+            onClick={() => {
+              oAuth.mutate("discord");
+            }}
+          >
             <BsDiscord />
           </Button>
         </div>

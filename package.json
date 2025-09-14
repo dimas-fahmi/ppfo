@@ -23,6 +23,7 @@
     "dotenv": "^17.2.2",
     "drizzle-orm": "^0.44.5",
     "drizzle-zod": "^0.8.3",
+    "eslint-js": "github:eslint/js",
     "jwt-decode": "^4.0.0",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.542.0",
