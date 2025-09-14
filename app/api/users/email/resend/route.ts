@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import z from "zod";
+import { z } from "zod";
 import { UsersEmailInfo } from "../info/get";
 import { createClient } from "@/src/lib/supabase/utils/server";
 import { AuthError } from "@supabase/supabase-js";
