@@ -14,11 +14,6 @@ interface FormData {
   email: string;
 }
 
-interface EmailInfoResponse {
-  email: string | null;
-  recoverySentAt?: string;
-}
-
 const RecoveryPageIndex = () => {
   // State for email key and typing
   const [emailKey, setEmailKey] = useState("");
