@@ -1,5 +1,6 @@
 "use client";
 
+import { COOLDOWN_TIME_MS } from "@/src/lib/configs/app";
 import { fetchEmailInfo } from "@/src/lib/fetchers/fetchEmailInfo";
 import { Button } from "@/src/ui/shadcn/components/ui/button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -8,8 +9,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-
-const COOLDOWN_TIME_MS = 5 * 60 * 1000; // 5 minutes
 
 const EmailVerificationIndex = () => {
   const router = useRouter();

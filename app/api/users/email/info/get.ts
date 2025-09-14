@@ -23,6 +23,8 @@ export async function usersEmailInfoGet(request: NextRequest) {
       return NextResponse.json({ error }, { status: 500 });
     }
 
+    console.log(data);
+
     const result: UsersEmailInfo = {
       id: data[0]?.id,
       confirmationSentAt: data[0]?.confirmation_sent_at,
