@@ -89,6 +89,10 @@
     @apply max-w-7xl mx-auto px-4;
   }
 
+  .article-width {
+    @apply max-w-5xl mx-auto px-4;
+  }
+
   .underline-effect {
     display: inline-block;
     position: relative;
