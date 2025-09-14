@@ -168,7 +168,7 @@ const RecoveryPageIndex = () => {
               {/* Email not found */}
               {emailKey.length > 3 && isValid && !isFetching && !account && (
                 <p className="text-destructive font-light text-xs">
-                  {` If an account exists for this email, we’ll send a recovery
+                  {` If an account exists for this email, we'll send a recovery
                   link.`}
                 </p>
               )}

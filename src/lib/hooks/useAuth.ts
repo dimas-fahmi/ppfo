@@ -4,7 +4,48 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signIn, signOut, signUp } from "../supabase/utils/actions";
 import { AuthError } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
+import { createClient } from "../supabase/utils/client";
 
+// SignIn with Github
+export function useOAuth() {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const supabase = createClient();
+
+  return useMutation({
+    mutationFn: async (provider: "github" | "google" | "discord") => {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      return data;
+    },
+    onError: (error) => {
+      router.replace(
+        `/auth?code=${
+          (error as AuthError)?.code ?? "unknown_error"
+        }&message=${encodeURIComponent(
+          (error as AuthError)?.message ??
+            "Unknown error please contact our developer"
+        )}`
+      );
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["auth", "session"],
+      });
+    },
+  });
+}
+
+// SignIn with Password
 export function useSignIn() {
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -49,6 +90,7 @@ export function useSignIn() {
   });
 }
 
+// SignUp with Email & Password
 export function useSignUp() {
   const router = useRouter();
   return useMutation({
@@ -82,6 +124,7 @@ export function useSignUp() {
   });
 }
 
+// SignOut
 export function useSignOut() {
   const queryClient = useQueryClient();
 

@@ -3,6 +3,7 @@
 import { createClient } from "./server";
 import { AuthError, Session } from "@supabase/supabase-js";
 
+// SignIn with Email & Password
 export async function signIn(email: string, password: string) {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signInWithPassword({
@@ -35,6 +36,7 @@ export async function signIn(email: string, password: string) {
   return result;
 }
 
+// Sign Up
 export async function signUp({
   email,
   password,
@@ -67,6 +69,7 @@ export async function signUp({
   return data;
 }
 
+// Sign Out
 export async function signOut() {
   const supabase = await createClient();
   const { error } = await supabase.auth.signOut();

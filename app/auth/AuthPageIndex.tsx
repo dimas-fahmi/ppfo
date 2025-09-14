@@ -16,7 +16,7 @@ import {
   CircleX,
   LoaderCircle,
 } from "lucide-react";
-import { useSignIn } from "@/src/lib/hooks/useAuth";
+import { useOAuth, useSignIn } from "@/src/lib/hooks/useAuth";
 
 const anything = z.object({
   email: z.email(),
@@ -86,6 +86,7 @@ const AuthPageIndex = ({
 
   // Mutation
   const signIn = useSignIn();
+  const oAuth = useOAuth();
 
   return (
     <div className="max-w-md px-4 overflow-y-scroll scrollbar-none h-full max-h-dvh">
@@ -226,13 +227,31 @@ const AuthPageIndex = ({
           <Link href={"/auth/recovery"}>Forgot your password?</Link>
         </div>
         <div className="grid grid-cols-3 gap-4">
-          <Button type="button" variant={"outline"}>
+          <Button
+            type="button"
+            variant={"outline"}
+            onClick={() => {
+              oAuth.mutate("google");
+            }}
+          >
             <BsGoogle />
           </Button>
-          <Button type="button" variant={"outline"}>
+          <Button
+            type="button"
+            variant={"outline"}
+            onClick={() => {
+              oAuth.mutate("github");
+            }}
+          >
             <BsGithub />
           </Button>
-          <Button type="button" variant={"outline"}>
+          <Button
+            type="button"
+            variant={"outline"}
+            onClick={() => {
+              oAuth.mutate("discord");
+            }}
+          >
             <BsDiscord />
           </Button>
         </div>
