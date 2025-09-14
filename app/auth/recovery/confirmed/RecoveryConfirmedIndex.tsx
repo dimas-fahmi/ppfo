@@ -25,12 +25,17 @@ const RecoveryConfirmedIndex = () => {
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      const decoded: any = jwtDecode(session?.access_token!);
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        const decoded = jwtDecode(session?.access_token);
 
-      //   Validate Recovery Session
-      const method = decoded?.amr?.[0]?.method;
-      if (method !== "recovery") {
+        //   Validate Recovery Session
+        // @ts-expect-error the value exist, just not recorded
+        const method = decoded?.amr?.[0]?.method;
+        if (method !== "recovery") {
+          router.push("/auth");
+        }
+      } else {
         router.push("/auth");
       }
     });
