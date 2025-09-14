@@ -1,35 +1,42 @@
 import { DEFAULT_AVATAR_PLACEHOLDER } from "@/src/lib/configs/app";
 import { useProfile } from "@/src/lib/hooks/useProfile";
 import { useMutateUser } from "@/src/lib/hooks/useUser";
-import Loader from "@/src/ui/components/Loader";
 import { Button } from "@/src/ui/shadcn/components/ui/button";
 import Image from "next/image";
-import React from "react";
+import { useSearchParams } from "next/navigation";
+import React, { Suspense } from "react";
 
-const ConfirmationPhase = ({ avatar }: { avatar: string | null }) => {
+const ConfirmationPhase = () => {
+  const params = useSearchParams();
+  const preview = params.get("preview");
+
+  return (
+    <Suspense>
+      <ConfirmationPhaseIndex preview={preview} />
+    </Suspense>
+  );
+};
+
+const ConfirmationPhaseIndex = ({ preview }: { preview: string | null }) => {
   const { data: profile } = useProfile();
   const userMutation = useMutateUser();
 
-  return !profile?.avatar ? (
-    <div className="relative">
-      <Loader classes={{ mediaClassNames: "w-48" }} />
-    </div>
-  ) : (
+  return (
     <div className="bg-secondary p-4 rounded-md">
       {/* Header */}
       <div className="flex flex-col justify-center items-center">
         {/* Image */}
-        {profile?.avatar && (
-          <Image
-            placeholder="blur"
-            blurDataURL={DEFAULT_AVATAR_PLACEHOLDER}
-            className="w-28 h-28 rounded-full"
-            width={320}
-            height={320}
-            src={profile?.avatar ?? avatar ?? DEFAULT_AVATAR_PLACEHOLDER}
-            alt={`${profile?.firstName}s Avatar`}
-          />
-        )}
+        <Image
+          placeholder="blur"
+          blurDataURL={DEFAULT_AVATAR_PLACEHOLDER}
+          className="w-28 h-28 rounded-full"
+          width={120}
+          height={120}
+          src={preview ?? DEFAULT_AVATAR_PLACEHOLDER}
+          alt={`${profile?.firstName}s Avatar`}
+          quality={50}
+          priority
+        />
 
         {/* Information */}
         <div className="text-center">

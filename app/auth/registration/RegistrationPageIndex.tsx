@@ -24,7 +24,6 @@ const RegistrationPageIndex = () => {
   );
   const [label, setLabel] = useState("Wait a moment");
   const [render, setRender] = useState<React.ReactNode>(<Loader />);
-  const [storedAvatar, setStoredAvatar] = useState<string | null>(null);
 
   const router = useRouter();
 
@@ -45,18 +44,18 @@ const RegistrationPageIndex = () => {
       case "avatar":
         setHeader(`Nice to have you aboard ${firstName}, LAST ONE!`);
         setLabel(`Upload something that'll represent you`);
-        setRender(<AvatarPhase setAvatar={setStoredAvatar} />);
+        setRender(<AvatarPhase />);
         break;
       case "confirmation":
         setHeader(`Welcome to the Press & Public Freedom Organization`);
         setLabel("It's nice to have you aboard");
-        setRender(<ConfirmationPhase avatar={storedAvatar} />);
+        setRender(<ConfirmationPhase />);
         break;
       default:
         setRender(<Loader classes={{ mediaClassNames: "w-48" }} />);
         break;
     }
-  }, [phase, setRender, firstName, router, refetch, isFetched, storedAvatar]);
+  }, [phase, setRender, firstName, router, refetch, isFetched]);
 
   return (
     <div className="max-w-md p-4 overflow-y-scroll scrollbar-none h-full max-h-dvh">
