@@ -3,3 +3,4 @@ export const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp"];
 export const MAX_SIZE = 4 * 1024 * 1024;
 export const DEFAULT_AVATAR_PLACEHOLDER =
   "/resources/ppfo/placeholder/avatar_placeholder.png";
+export const COOLDOWN_TIME_MS = 5 * 60 * 1000; // 5 minutes

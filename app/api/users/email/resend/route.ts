@@ -1,33 +1,52 @@
 import { NextRequest, NextResponse } from "next/server";
-import z from "zod";
+import { z } from "zod";
 import { UsersEmailInfo } from "../info/get";
 import { createClient } from "@/src/lib/supabase/utils/server";
+import { AuthError } from "@supabase/supabase-js";
+import { createResponse } from "@/src/lib/utils/createResponse";
+
+const PATH = "API_USERS_EMAIL_RESEND" as const;
 
 export async function POST(request: NextRequest) {
-  let body: { email: string; type: "signup" | "OTP" };
+  let body: { email: string; type: "signup" | "reset_password" | "OTP" };
 
   // Parse
   try {
     body = await request.json();
 
     if (!body.email || !body.type) {
-      console.log("MISSING_EMAIL_OR_TYPE_PARAMETERS");
-      return NextResponse.json(
-        { error: "MISSING_EMAIL_OR_TYPE_PARAMETERS" },
-        { status: 400 }
+      return createResponse(
+        400,
+        "bad_request",
+        "MISSING_EMAIL_OR_TYPE_PARAMETERS",
+        undefined,
+        true,
+        PATH
       );
     }
   } catch (_error) {
-    console.log("INVALID_JSON_BODY");
-    return NextResponse.json({ error: "INVALID_JSON_BODY" }, { status: 400 });
+    return createResponse(
+      400,
+      "bad_request",
+      "INVALID_JSON_BODY",
+      undefined,
+      true,
+      PATH
+    );
   }
 
   // Validate Email
   const validation = z.email().safeParse(body.email);
 
   if (!validation.success) {
-    console.log("INVALID_EMAIL");
-    return NextResponse.json({ error: "INVALID_EMAIL" }, { status: 400 });
+    return createResponse(
+      400,
+      "bad_request",
+      "INVALID_EMAIL",
+      undefined,
+      true,
+      PATH
+    );
   }
 
   // Fetch Email Information
@@ -42,7 +61,6 @@ export async function POST(request: NextRequest) {
   }
 
   if (result.emailConfirmedAt && body.type === "signup") {
-    console.log("ALREADY_CONFIRMED");
     return NextResponse.json({ error: "ALREADY_CONFIRMED" }, { status: 400 });
   }
 
@@ -52,20 +70,42 @@ export async function POST(request: NextRequest) {
   const lastVerification = result?.confirmationSentAt
     ? new Date(result.confirmationSentAt)
     : null;
+  const lastRecovery = result?.recoverySentAt
+    ? new Date(result.recoverySentAt)
+    : null;
 
   const isPassedCooldown = lastVerification
     ? now.getTime() - lastVerification.getTime() > cooldown
     : true;
 
-  if (!isPassedCooldown) {
-    return NextResponse.json(
-      { error: "NOT_YET_PASSED_COOLDOWN" },
-      { status: 403 }
+  const isPassedCooldownRecovery = lastRecovery
+    ? now.getTime() - lastRecovery.getTime() > cooldown
+    : true;
+
+  if (!isPassedCooldown && body.type === "signup") {
+    return createResponse(
+      429,
+      "too_many_request",
+      "NOT_YET_PASSED_COOLDOWN",
+      undefined,
+      true,
+      PATH
     );
   }
 
-  // Prevent other operations than "signUp" for now
-  if (body.type !== "signup") {
+  if (!isPassedCooldownRecovery && body.type === "reset_password") {
+    return createResponse(
+      429,
+      "too_many_request",
+      "NOT_YET_PASSED_COOLDOWN",
+      undefined,
+      true,
+      PATH
+    );
+  }
+
+  // Prevent other operations than "signUp" & "reset_password" for now
+  if (body.type !== "signup" && body.type !== "reset_password") {
     return NextResponse.json(
       { error: "ABORTED_NOT_YET_IMPLEMENTED" },
       { status: 403 }
@@ -75,20 +115,43 @@ export async function POST(request: NextRequest) {
   // Execute
   try {
     const supabase = await createClient();
-    const { error } = await supabase.auth.resend({
-      type: body.type,
-      email: body.email,
-    });
+    let error: AuthError | null = null;
+    if (
+      ["signup", "email_change", "phone_change", "sms"].includes(body.type) &&
+      body.type !== "reset_password"
+    ) {
+      const r = await supabase.auth.resend({
+        type: body.type,
+        email: body.email,
+      });
+      error = r?.error;
+    }
+
+    if (body.type === "reset_password") {
+      const r = await supabase.auth.resetPasswordForEmail(body.email, {
+        redirectTo: `${
+          process.env.NEXT_PUBLIC_SITE_URL ?? "https://ppfo.dimasfahmi.pro"
+        }/auth/recovery/confirmed`,
+      });
+      error = r?.error;
+    }
 
     if (error) {
       throw error;
     }
-  } catch (_error) {
-    return NextResponse.json({ _error }, { status: 500 });
+  } catch (error) {
+    return createResponse(
+      (error as AuthError)?.status ?? 500,
+      (error as AuthError)?.code ?? "unknown_error",
+      (error as AuthError)?.message ?? "Unknwon error",
+      undefined
+    );
   }
 
-  return NextResponse.json(
-    { result: "success", message: `Email sent to ${body.email}` },
-    { status: 200 }
+  return createResponse(
+    200,
+    "success",
+    `${body?.type} sent to ${body?.email}`,
+    undefined
   );
 }

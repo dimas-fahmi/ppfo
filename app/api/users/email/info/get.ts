@@ -6,6 +6,7 @@ export interface UsersEmailInfo {
   email: string;
   emailConfirmedAt: string | null;
   confirmationSentAt: string | null;
+  recoverySentAt: string | null;
 }
 
 export async function usersEmailInfoGet(request: NextRequest) {
@@ -27,6 +28,7 @@ export async function usersEmailInfoGet(request: NextRequest) {
       confirmationSentAt: data[0]?.confirmation_sent_at,
       emailConfirmedAt: data[0]?.email_confirmed_at,
       email: data[0]?.email,
+      recoverySentAt: data[0]?.recovery_sent_at,
     };
 
     if (!result?.email) {

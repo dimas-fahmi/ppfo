@@ -142,7 +142,6 @@ export async function PATCH(req: NextRequest) {
           }
         );
       } catch (_error) {
-        console.log(_error);
         throw new Error("Failed uploading image");
       }
 
