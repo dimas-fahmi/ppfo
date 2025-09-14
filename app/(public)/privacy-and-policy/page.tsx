@@ -14,7 +14,6 @@ export const metadata: Metadata = generateMetadata({
 
 const effectiveDate = "15/09/2025";
 const entity = "Press & Public Freedom Organization";
-const short = "PPFO";
 
 const PrivacyAndPolicyPage = () => {
   return (
@@ -36,12 +35,12 @@ const PrivacyAndPolicyPage = () => {
         <div className="flex justify-center items-center">
           {/* Wrapper */}
           <div className="space-y-4 text-center md:text-left">
-            <h1 className="text-4xl font-header">Privacy & Policy</h1>
+            <h1 className="text-4xl font-header">{`Privacy & Policy`}</h1>
             <p>
-              This Privacy & Policy page explains how we collect, use, store,
+              {` This Privacy & Policy page explains how we collect, use, store,
               and protect your personal information to ensure transparency,
               trust, and compliance with data protection regulations and
-              practices.
+              practices.`}
             </p>
           </div>
         </div>
@@ -61,120 +60,123 @@ const PrivacyAndPolicyPage = () => {
 
         {/* Section 1 */}
         <section id="introduction" className="mt-12 space-y-4">
-          <h1 className="text-4xl font-header">1. Introduction</h1>
+          <h1 className="text-4xl font-header">{`1. Introduction`}</h1>
           <p>
-            At <span className="font-semibold">{entity}</span>. We are committed
+            {`At`} <span className="font-semibold">{entity}</span>
+            {`. We are committed
             to protecting your personal data and upholding your privacy rights.
             This Privacy Policy outlines how we collect, use, disclose, and
             safeguard your information when you access or use our web
-            application and related services.
+            application and related services.`}
           </p>
 
           <p>
-            Our platform allows users to engage in meaningful discourse by
+            {` Our platform allows users to engage in meaningful discourse by
             posting articles, creating threads, forming organizations,
             contributing to event archives (such as those related to war,
             genocide, or political conflict), and linking individuals—ranging
-            from victims to public figures, heroes, and alleged perpetrators.
+            from victims to public figures, heroes, and alleged perpetrators.`}
           </p>
 
           <p>
-            This policy applies to all users of our platform, regardless of
+            {` This policy applies to all users of our platform, regardless of
             location, and reflects our compliance with applicable data
-            protection laws, including:
+            protection laws, including:`}
           </p>
 
           <ul className="list-disc px-12">
             <li>
-              Indonesia's Personal Data Protection{" "}
+              {` Indonesia's Personal Data Protection `}
               <Link
                 href={
                   "https://peraturan.bpk.go.id/Details/229798/uu-no-27-tahun-2022"
                 }
               >
-                PDP
-              </Link>{" "}
-              Law No. 27 of 2022
+                {`PDP`}
+              </Link>
+              {` Law No. 27 of 2022`}
             </li>
             <li>
-              The General Data Protection Regulation{" "}
-              <Link href={"https://gdpr-info.eu/"}>GDPR</Link> of the European
-              Union
+              {` The General Data Protection Regulation `}
+              <Link href={"https://gdpr-info.eu/"}>{`GDPR`}</Link>{" "}
+              {`of the
+              European Union`}
             </li>
           </ul>
 
           <p>
-            By using our services, you agree to the terms outlined in this
+            {`  By using our services, you agree to the terms outlined in this
             Privacy Policy. If you do not agree with our practices, please do
-            not use the platform.
+            not use the platform.`}
           </p>
 
           <p>
-            We encourage you to read this policy carefully to understand your
+            {` We encourage you to read this policy carefully to understand your
             rights and how your personal data is handled. If you have any
             questions, our contact details are provided at the end of this
-            document.
+            document.`}
           </p>
 
           <span className="text-sm font-light">
-            Effective Date: {effectiveDate}
+            {`Effective Date:`} {effectiveDate}
           </span>
         </section>
 
         {/* Section 2 */}
         <section id="who-we-are" className="mt-12 space-y-4">
-          <h1 className="text-4xl font-header">2. Who We Are</h1>
+          <h1 className="text-4xl font-header">{`2. Who We Are`}</h1>
           <p>
-            <span className="font-semibold">{entity}</span> (“we”, “our”, or
+            <span className="font-semibold">{entity}</span>{" "}
+            {`(“we”, “our”, or
             “us”) is a nonprofit platform based in Indonesia that promotes
             transparency, accountability, and public access to information.
             Through our web application, we provide tools for users to publish
             articles, create public discussions, document historical or ongoing
             events, and highlight the roles of individuals—whether victims,
-            activists, officials, or others—within those narratives.
+            activists, officials, or others—within those narratives.`}
           </p>
 
           <p>
-            Our commitment to press freedom, public participation, and
+            {` Our commitment to press freedom, public participation, and
             historical documentation guides our mission. We are also committed
             to protecting the privacy of our users and ensuring compliance with
             applicable data protection laws, including the GDPR and Indonesia's
-            PDP Law.
+            PDP Law.`}
           </p>
 
           <p>
-            If you have questions about this Privacy Policy or how we handle
-            your data, you may contact us at:
+            {`  If you have questions about this Privacy Policy or how we handle
+            your data, you may contact us at:`}
           </p>
 
           <ul className="list-disc px-12">
-            <li>support@mail.dimasfahmi.pro</li>
+            <li>{`support@mail.dimasfahmi.pro`}</li>
           </ul>
 
           <p>
-            If required by law, or as our operations grow, we may appoint a Data
+            {` If required by law, or as our operations grow, we may appoint a Data
             Protection Officer (DPO). This information will be updated here
-            accordingly.
+            accordingly.`}
           </p>
         </section>
 
         {/* Section 3 */}
         <section id="what-data-we-collect" className="mt-12 space-y-4">
-          <h1 className="text-4xl font-header">3. What Data We Collect</h1>
+          <h1 className="text-4xl font-header">{`3. What Data We Collect`}</h1>
           <p>
-            We only collect and process the minimal personal data necessary to
+            {` We only collect and process the minimal personal data necessary to
             provide, secure, and operate our platform effectively. We do not
             collect or use personal information for advertising, tracking, or
-            profiling purposes.
+            profiling purposes.`}
           </p>
 
           <h2 className="text-2xl font-header">
-            3.1 Personal Information You Provide
+            {`3.1 Personal Information You Provide`}
           </h2>
 
           <p>
-            When you create an account or log in, we collect the following
-            information:
+            {` When you create an account or log in, we collect the following
+            information:`}
           </p>
 
           <ul className="list-disc px-12">
@@ -487,11 +489,11 @@ const PrivacyAndPolicyPage = () => {
           <h3 className="text-2xl font-header">Our Service Providers</h3>
 
           <p>
-            We use Supabase to host our backend infrastructure, including
+            {`We use Supabase to host our backend infrastructure, including
             authentication, database, and API services. Your personal data (such
             as account information and email) is securely stored and processed
             on Supabase's platform. Supabase adheres to modern data protection
-            and security standards.
+            and security standards.`}
           </p>
 
           <p>
@@ -525,11 +527,11 @@ const PrivacyAndPolicyPage = () => {
           </ul>
 
           <p>
-            When personal data is transferred to or processed in countries
+            {`When personal data is transferred to or processed in countries
             outside Indonesia or the European Economic Area (EEA), we ensure
             appropriate safeguards are in place, such as Standard Contractual
             Clauses (SCCs) or other legally recognized mechanisms, in accordance
-            with GDPR and Indonesia's PDP Law.
+            with GDPR and Indonesia's PDP Law.`}
           </p>
 
           <h3 className="text-2xl font-header">Legal Disclosure</h3>
@@ -578,10 +580,10 @@ const PrivacyAndPolicyPage = () => {
           <h1 className="text-4xl font-header">{`9. Changes to This Privacy Policy`}</h1>
 
           <p>
-            We may update this Privacy Policy from time to time to reflect
+            {`We may update this Privacy Policy from time to time to reflect
             changes in our practices, legal obligations, or the functionality of
             our platform. When we make changes, we will revise the "Effective
-            Date" at the top of this page.
+            Date" at the top of this page.`}
           </p>
 
           <p>
