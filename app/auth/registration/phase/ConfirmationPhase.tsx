@@ -1,8 +1,12 @@
 import { DEFAULT_AVATAR_PLACEHOLDER } from "@/src/lib/configs/app";
 import { useProfile } from "@/src/lib/hooks/useProfile";
 import { useMutateUser } from "@/src/lib/hooks/useUser";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/src/ui/shadcn/components/ui/avatar";
 import { Button } from "@/src/ui/shadcn/components/ui/button";
-import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import React, { Suspense } from "react";
 
@@ -26,16 +30,18 @@ const ConfirmationPhaseIndex = ({ preview }: { preview: string | null }) => {
       {/* Header */}
       <div className="flex flex-col justify-center items-center">
         {/* Image */}
-        <Image
-          placeholder="blur"
-          blurDataURL={DEFAULT_AVATAR_PLACEHOLDER}
-          className="w-28 h-28 rounded-full"
-          width={320}
-          height={320}
-          src={preview ?? DEFAULT_AVATAR_PLACEHOLDER}
-          alt={`${profile?.firstName}s Avatar`}
-          priority
-        />
+        <Avatar>
+          <AvatarImage
+            width={320}
+            height={320}
+            src={preview ?? DEFAULT_AVATAR_PLACEHOLDER}
+            alt={`${profile?.firstName}s Avatar`}
+          />
+          <AvatarFallback>
+            {profile?.firstName ?? "N"}
+            {profile?.lastName ?? "A"}
+          </AvatarFallback>
+        </Avatar>
 
         {/* Information */}
         <div className="text-center">
