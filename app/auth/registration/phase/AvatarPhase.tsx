@@ -14,12 +14,12 @@ import {
   MAX_SIZE,
 } from "@/src/lib/configs/app";
 import { useMutateUser } from "@/src/lib/hooks/useUser";
+import { useRouter } from "next/navigation";
 
-const AvatarPhase = ({
-  setAvatar,
-}: {
-  setAvatar: React.Dispatch<React.SetStateAction<string | null>>;
-}) => {
+const AvatarPhase = () => {
+  // Router Init
+  const router = useRouter();
+
   // Image Preview
   const [preview, setPreview] = useState(
     "https://images.pexels.com/photos/1812634/pexels-photo-1812634.jpeg"
@@ -165,7 +165,6 @@ const AvatarPhase = ({
                 size={"sm"}
                 onClick={() => {
                   if (profile) {
-                    setAvatar(preview);
                     profileMutation.mutate(
                       {
                         id: profile.userId,
@@ -193,11 +192,16 @@ const AvatarPhase = ({
                 className="text-xs"
                 size={"sm"}
                 onClick={() => {
-                  mutate(blob);
-                  setAvatar(preview);
-                  userMutation.mutate({
-                    data: {
-                      registration_phase: "confirmation",
+                  mutate(blob, {
+                    onSuccess: (data) => {
+                      router.replace(
+                        `/auth/registration?preview=${data?.result}`
+                      );
+                      userMutation.mutate({
+                        data: {
+                          registration_phase: "confirmation",
+                        },
+                      });
                     },
                   });
                 }}
