@@ -16,6 +16,8 @@ import { Separator } from "@/src/ui/shadcn/components/ui/separator";
 import { useMediaQuery } from "react-responsive";
 import { Button } from "@/src/ui/shadcn/components/ui/button";
 import { useSession } from "@/src/lib/hooks/useSession";
+import Link from "next/link";
+import { useSidebarStore } from "@/src/lib/stores/sidebar";
 
 const SidebarNavigations = () => {
   // Responsive
@@ -25,6 +27,9 @@ const SidebarNavigations = () => {
 
   // Session
   const { data: session } = useSession();
+
+  // Sidebar Toggle
+  const toggleSidebar = useSidebarStore((s) => s.toggleOpen);
 
   return (
     <nav className="grid grid-cols-1 space-y-4">
@@ -64,9 +69,18 @@ const SidebarNavigations = () => {
                 You do not belong to any organization.
               </p>
 
-              <Button className="w-full mt-2" variant={"outline"}>
-                <Plus />
-                Create an organization
+              <Button className="w-full mt-2" variant={"outline"} asChild>
+                <Link
+                  href={"/organization/new"}
+                  onClick={() => {
+                    if (!isDesktopOrTablet) {
+                      toggleSidebar();
+                    }
+                  }}
+                >
+                  <Plus />
+                  Create an organization
+                </Link>
               </Button>
             </Dropdown>
           </div>
