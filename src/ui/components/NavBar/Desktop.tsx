@@ -13,13 +13,11 @@ import { usePathname } from "next/navigation";
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { useSidebarStore } from "@/src/lib/stores/sidebar";
 import { motion } from "motion/react";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "../../shadcn/components/ui/avatar";
+
 import { useSession } from "@/src/lib/hooks/useSession";
 import { useProfile } from "@/src/lib/hooks/useProfile";
+import { Button } from "../../shadcn/components/ui/button";
+import UserPopover from "../UserPopover";
 
 const NavBar_Desktop = () => {
   const { data: session } = useSession();
@@ -53,7 +51,7 @@ const NavBar_Desktop = () => {
           {/* Region */}
           <div className="flex items-center justify-center">
             <ul className="flex gap-4 text-xs">
-              <li>International</li>
+              <li>Indonesia</li>
               <li>Asia</li>
               <li>Europe</li>
               <li>America</li>
@@ -63,12 +61,14 @@ const NavBar_Desktop = () => {
 
           {/* CTA */}
           <div className="flex justify-end gap-2">
-            <button className="px-4 py-1 text-sm rounded-md border">
+            <Button variant={"outline"} size={"sm"}>
               Write Article
-            </button>
-            <button className="px-4 py-1 text-sm rounded-md border bg-primary text-primary-foreground">
-              Sign In
-            </button>
+            </Button>
+            {!session && (
+              <Button size={"sm"} asChild>
+                <Link href={"/auth"}>Sign In</Link>
+              </Button>
+            )}
           </div>
         </div>
       </motion.div>
@@ -115,22 +115,7 @@ const NavBar_Desktop = () => {
           >
             <ToggleIcon size={24} />
           </button>
-          {session && profile && (
-            <button
-              onClick={toggleSidebar}
-              className="cursor-pointer active:scale-95 transition-all duration-300"
-            >
-              <Avatar>
-                <AvatarImage
-                  src={
-                    "https://images.pexels.com/photos/3823495/pexels-photo-3823495.jpeg"
-                  }
-                  alt="Placeholder"
-                />
-                <AvatarFallback>DF</AvatarFallback>
-              </Avatar>
-            </button>
-          )}
+          {session && profile && <UserPopover />}
         </div>
       </div>
     </nav>

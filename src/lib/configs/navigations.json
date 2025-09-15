@@ -8,20 +8,15 @@
     "href": "/news"
   },
   {
-    "title": "Forums",
-    "href": "/forums"
-  },
-
-  {
-    "title": "Channels",
-    "href": "/channels"
-  },
-  {
     "title": "Journalism",
     "href": "/journalism"
   },
   {
-    "title": "Trusted",
-    "href": "/channels"
+    "title": "Events",
+    "href": "/events"
+  },
+  {
+    "title": "Figures",
+    "href": "/figures"
   }
 ]

@@ -5,7 +5,7 @@ import Link from "next/link";
 import React from "react";
 
 export const metadata: Metadata = generateMetadata({
-  title: "Privacy & Policy",
+  title: "Privacy Policy | PPFO",
   description: `This Privacy & Policy page explains how we collect, use, store,
               and protect your personal information to ensure transparency,
               trust, and compliance with data protection regulations and
@@ -35,7 +35,7 @@ const PrivacyAndPolicyPage = () => {
         <div className="flex justify-center items-center">
           {/* Wrapper */}
           <div className="space-y-4 text-center md:text-left">
-            <h1 className="text-4xl font-header">{`Privacy & Policy`}</h1>
+            <h1 className="text-4xl font-header">{`Privacy Policy`}</h1>
             <p>
               {` This Privacy & Policy page explains how we collect, use, store,
               and protect your personal information to ensure transparency,

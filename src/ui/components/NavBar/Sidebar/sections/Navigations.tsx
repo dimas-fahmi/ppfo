@@ -15,11 +15,16 @@ import Dropdown from "../components/Dropdown";
 import { Separator } from "@/src/ui/shadcn/components/ui/separator";
 import { useMediaQuery } from "react-responsive";
 import { Button } from "@/src/ui/shadcn/components/ui/button";
+import { useSession } from "@/src/lib/hooks/useSession";
 
 const SidebarNavigations = () => {
+  // Responsive
   const isDesktopOrTablet = useMediaQuery({
     query: "(min-width: 768px)",
   });
+
+  // Session
+  const { data: session } = useSession();
 
   return (
     <nav className="grid grid-cols-1 space-y-4">
@@ -42,6 +47,33 @@ const SidebarNavigations = () => {
       </div>
 
       <Separator className="opacity-50" />
+
+      {/* Organization */}
+      {session && (
+        <>
+          <div>
+            <Dropdown title="Organization">
+              {/* <NavItem
+            label="Freedom Of Assembly"
+            href="/freedom-of-assembly"
+            image="/resources/placeholder/pexels-mohamedelaminemsiouri-2246258.jpg"
+            alt="Illustration of Demonstration"
+          /> */}
+
+              <p className="text-xs text-center font-light mb-3">
+                You do not belong to any organization.
+              </p>
+
+              <Button className="w-full mt-2" variant={"outline"}>
+                <Plus />
+                Create an organization
+              </Button>
+            </Dropdown>
+          </div>
+
+          <Separator className="opacity-50" />
+        </>
+      )}
 
       {/* Navigation Two */}
       <div>
