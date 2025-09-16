@@ -5,6 +5,7 @@ import {
   policy_AnyoneCanRead,
   policy_ServiceRoleTotalControl,
 } from "./configs";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const organizations = organizationSchema
   .table(
@@ -41,6 +42,11 @@ export const organizations = organizationSchema
   )
   .enableRLS();
 
+export type SelectOrganizations = typeof organizations.$inferSelect;
+export type InsertOrganization = typeof organizations.$inferInsert;
+export const SelectOrganization = createSelectSchema(organizations);
+export const InsertOrganizationSchema = createInsertSchema(organizations);
+
 // Memberships
 export const organizationMemberships = organizationSchema
   .table(
@@ -52,6 +58,15 @@ export const organizationMemberships = organizationSchema
       userId: uuid("user_id")
         .references(() => authUsers.id)
         .notNull(),
+
+      // Categorization
+      type: text("type", {
+        enum: ["regular", "system"],
+      })
+        .notNull()
+        .default("regular"),
+
+      systemMessage: text("system_message"),
 
       // Metadata
       role: text("role", {
@@ -90,3 +105,14 @@ export const organizationMemberships = organizationSchema
     ]
   )
   .enableRLS();
+
+export type SelectOrganizationMemberships =
+  typeof organizationMemberships.$inferSelect;
+export type InsertOrganizationMemberships =
+  typeof organizationMemberships.$inferInsert;
+export const SelectOrganizationMembershipsSchema = createSelectSchema(
+  organizationMemberships
+);
+export const InsertOrganizationMembershipsSchema = createInsertSchema(
+  organizationMemberships
+);
