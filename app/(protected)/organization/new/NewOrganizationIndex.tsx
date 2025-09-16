@@ -32,7 +32,7 @@ const NewOrganizationIndex = () => {
   return (
     <div className="">
       {/* Header */}
-      <header className="p-4 bg-primary text-primary-foreground rounded-md flex justify-between items-center">
+      <header className="p-4 border rounded-md flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-header">Create New Organization</h1>
           <p className="text-sm font-light">

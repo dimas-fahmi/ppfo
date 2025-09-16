@@ -17,6 +17,7 @@ import {
   policy_ServiceRoleTotalControl,
 } from "./configs";
 import { sql } from "drizzle-orm";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const media = pgTable(
   "media",
@@ -84,3 +85,8 @@ export const media = pgTable(
     ), // Search from alt (e.g. A child smoking)
   ]
 );
+
+export type SelectMedia = typeof media.$inferSelect;
+export type InsertMedia = typeof media.$inferInsert;
+export const SelectMediaSchema = createSelectSchema(media);
+export const InsertMediaSchema = createInsertSchema(media);

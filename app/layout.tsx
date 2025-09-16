@@ -7,6 +7,7 @@ import Sidebar from "@/src/ui/components/NavBar/Sidebar";
 import { useSidebarStore } from "@/src/lib/stores/sidebar";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useMediaQuery } from "react-responsive";
+import React from "react";
 
 export default function RootLayout({
   children,

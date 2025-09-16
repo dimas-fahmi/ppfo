@@ -4,12 +4,12 @@ import React from "react";
 import NavItem from "./NavItem";
 import {
   Antenna,
+  BookImage,
   HatGlasses,
   House,
   MessageSquareText,
   Newspaper,
   Plus,
-  ShieldCheck,
 } from "lucide-react";
 import Dropdown from "../components/Dropdown";
 import { Separator } from "@/src/ui/shadcn/components/ui/separator";
@@ -43,11 +43,10 @@ const SidebarNavigations = () => {
           <NavItem label="Forums" href="/forums" icon={MessageSquareText} />
           <NavItem label="Channels" href="/channels" icon={Antenna} />
           <NavItem label="Journalism" href="/journalism" icon={HatGlasses} />
-          <NavItem
-            label="Trusted Media"
-            href="/trusted-media"
-            icon={ShieldCheck}
-          />
+
+          {session && (
+            <NavItem label="My Media" href="/media" icon={BookImage} />
+          )}
         </Dropdown>
       </div>
 
