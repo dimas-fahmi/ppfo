@@ -4,18 +4,20 @@ import React from "react";
 import NavItem from "./NavItem";
 import {
   Antenna,
+  BookImage,
   HatGlasses,
   House,
   MessageSquareText,
   Newspaper,
   Plus,
-  ShieldCheck,
 } from "lucide-react";
 import Dropdown from "../components/Dropdown";
 import { Separator } from "@/src/ui/shadcn/components/ui/separator";
 import { useMediaQuery } from "react-responsive";
 import { Button } from "@/src/ui/shadcn/components/ui/button";
 import { useSession } from "@/src/lib/hooks/useSession";
+import Link from "next/link";
+import { useSidebarStore } from "@/src/lib/stores/sidebar";
 
 const SidebarNavigations = () => {
   // Responsive
@@ -25,6 +27,9 @@ const SidebarNavigations = () => {
 
   // Session
   const { data: session } = useSession();
+
+  // Sidebar Toggle
+  const toggleSidebar = useSidebarStore((s) => s.toggleOpen);
 
   return (
     <nav className="grid grid-cols-1 space-y-4">
@@ -38,11 +43,10 @@ const SidebarNavigations = () => {
           <NavItem label="Forums" href="/forums" icon={MessageSquareText} />
           <NavItem label="Channels" href="/channels" icon={Antenna} />
           <NavItem label="Journalism" href="/journalism" icon={HatGlasses} />
-          <NavItem
-            label="Trusted Media"
-            href="/trusted-media"
-            icon={ShieldCheck}
-          />
+
+          {session && (
+            <NavItem label="My Media" href="/media" icon={BookImage} />
+          )}
         </Dropdown>
       </div>
 
@@ -64,9 +68,18 @@ const SidebarNavigations = () => {
                 You do not belong to any organization.
               </p>
 
-              <Button className="w-full mt-2" variant={"outline"}>
-                <Plus />
-                Create an organization
+              <Button className="w-full mt-2" variant={"outline"} asChild>
+                <Link
+                  href={"/organization/new"}
+                  onClick={() => {
+                    if (!isDesktopOrTablet) {
+                      toggleSidebar();
+                    }
+                  }}
+                >
+                  <Plus />
+                  Create an organization
+                </Link>
               </Button>
             </Dropdown>
           </div>

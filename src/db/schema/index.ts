@@ -9,6 +9,7 @@ import { comments } from "./comments";
 import { figures } from "./figures";
 import { events, eventActors } from "./events";
 import { authUsers } from "drizzle-orm/supabase";
+import { media } from "./media";
 
 // Export as batch
 const schema = {
@@ -41,6 +42,9 @@ const schema = {
 
   // Threads
   threads,
+
+  // Media
+  media,
 
   // Supabase [user]
   authUsers,
