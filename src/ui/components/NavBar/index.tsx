@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 import NavBar_Desktop from "./Desktop";
 import NavBar_Mobile from "./Mobile";
 
