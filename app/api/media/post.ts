@@ -1,11 +1,11 @@
 import { NextRequest } from "next/server";
 import { createResponse } from "@/src/lib/utils/createResponse";
-import { InsertMedia } from "@/src/db/schema/media";
+import { InsertMedia, media } from "@/src/db/schema/media";
 import { createClient } from "@/src/lib/supabase/utils/server";
 import { ALLOWED_MIME_TYPES, MAX_SIZE } from "@/src/lib/configs/app";
 import sharp from "sharp";
 import { db } from "@/src/db";
-import { put, PutBlobResult } from "@vercel/blob";
+import { del, put, PutBlobResult } from "@vercel/blob";
 
 const PATH = "API_MEDIA_POST";
 
@@ -179,11 +179,60 @@ export async function mediaPost(req: NextRequest) {
         throw new Error("Failed to upload, operation aborted");
       }
 
-      // Create Owner
-    });
-  } catch (_error) {
-    return;
-  }
+      // Create New Media
+      const newMedia: InsertMedia = {
+        // Ownership
+        ownerId: userId,
+        uploadedBy: userId,
 
-  return createResponse(200, "connected", "Hi", dataUrl);
+        // Metadata
+        mediaName,
+        mediaAlt,
+        mediaAttribute,
+        mediaSource,
+        mediaPath: uploadedImage.url,
+        mediaType: "picture",
+
+        // Categorization
+        isNotSafeForWork: isNSFW,
+        isAiGenerated: isAI,
+
+        // Publicity
+        publicity: isPublic ? "public" : "restricted",
+
+        // Location
+        longitude,
+        latitude,
+      };
+
+      // Store new media to DB
+      let stored;
+      try {
+        stored = await tx.insert(media).values(newMedia).returning();
+      } catch (_error) {
+        await del(uploadedImage.url);
+        throw new Error(
+          "Failed to stored image, deleting uploaded image and aborting"
+        );
+      }
+
+      return stored;
+    });
+
+    return createResponse(
+      200,
+      "success",
+      "New media is uploaded and stored",
+      response
+    );
+  } catch (error) {
+    return createResponse(
+      500,
+      "fatal_error",
+      (error as Error)?.message ?? "Unknown error",
+      undefined,
+      true,
+      `${PATH}:${error}`
+    );
+  }
 }
