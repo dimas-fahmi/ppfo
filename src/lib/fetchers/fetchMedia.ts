@@ -5,6 +5,9 @@ const fetchMedia = async (
   query: MediaGetRequest
 ): Promise<MediaGetResponse> => {
   try {
+    if (query?.mediaOwner) {
+      throw new Error("media owner not yet existed");
+    }
     const queryString = objectToQueryString({ ...query });
     const response = await fetch(`/api/media?${queryString}`, {
       method: "GET",
