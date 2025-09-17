@@ -1,4 +1,11 @@
-import { index, primaryKey, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  index,
+  primaryKey,
+  text,
+  timestamp,
+  uuid,
+} from "drizzle-orm/pg-core";
 import { authUsers } from "drizzle-orm/supabase";
 import {
   organizationSchema,
@@ -26,6 +33,16 @@ export const organizations = organizationSchema
       logo: text("logo"),
       coverImage: text("cover_image"),
       createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+
+      // Categorization
+      type: text("type", {
+        enum: ["regular", "system"],
+      })
+        .notNull()
+        .default("regular"),
+
+      systemMessage: text("system_message"),
+      isVerified: boolean("is_verified").notNull().default(false),
 
       // Soft-Delete
       deletedAt: timestamp("deleted_at", { withTimezone: true }),
@@ -58,15 +75,6 @@ export const organizationMemberships = organizationSchema
       userId: uuid("user_id")
         .references(() => authUsers.id)
         .notNull(),
-
-      // Categorization
-      type: text("type", {
-        enum: ["regular", "system"],
-      })
-        .notNull()
-        .default("regular"),
-
-      systemMessage: text("system_message"),
 
       // Metadata
       role: text("role", {
