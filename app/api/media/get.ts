@@ -43,7 +43,7 @@ export async function mediaGet(req: NextRequest) {
     queries.push(eq(media.mediaName, mediaName));
   }
 
-  if (mediaOwner) {
+  if (mediaOwner && includePublic !== "true") {
     queries.push(eq(media.ownerId, mediaOwner));
   }
 
