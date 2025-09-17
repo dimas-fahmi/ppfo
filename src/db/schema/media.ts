@@ -25,10 +25,10 @@ export const media = pgTable(
     id: text("id")
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
-    ownerId: uuid("owner_id").references(() => authUsers.id), // Default to uploader if set, can change hands, if set to null owned by public
-    organizationId: uuid("organization_id")
-      .notNull()
-      .references(() => organizations.id), // Organization that manage the media, can change hands
+    ownerId: uuid("owner_id")
+      .references(() => authUsers.id)
+      .notNull(), // Owner ID, can change hands
+    organizationId: uuid("organization_id").references(() => organizations.id), // Organization that manage the media, can change hands
 
     // Metadata
     mediaName: text("media_name").notNull(), // Media name
