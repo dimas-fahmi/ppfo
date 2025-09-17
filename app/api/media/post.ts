@@ -15,8 +15,8 @@ export interface MediaPostRequest {
   mediaAttribute: string;
   mediaAlt: string;
   mediaLocation: string;
-  latitude: string;
-  longitude: string;
+  latitude?: string;
+  longitude?: string;
   isAI: boolean;
   isNSFW: boolean;
   isPublic: boolean;
@@ -105,6 +105,7 @@ export async function mediaPost(req: NextRequest) {
 
   // Validate Image Size
   if (image.size > MAX_SIZE) {
+    console.log(image.size, MAX_SIZE);
     return createResponse(
       400,
       "bad_request",

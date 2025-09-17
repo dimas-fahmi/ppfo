@@ -10,7 +10,7 @@
  * const result = truncateString("This is a simple example sentence for truncation.", 5, true);
  * console.log(result); // "This is a simple example..."
  */
-function truncateString(
+export function truncateString(
   input: string,
   wordLimit: number,
   addEllipsis: boolean
@@ -29,8 +29,3 @@ function truncateString(
   // Add ellipsis if required
   return addEllipsis ? `${truncated}...` : truncated;
 }
-
-// Example Usage
-const inputString = "This is a simple example sentence for truncation.";
-const truncatedString = truncateString(inputString, 5, true);
-console.log(truncatedString); // "This is a simple example..."
