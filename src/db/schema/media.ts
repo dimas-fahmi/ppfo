@@ -32,7 +32,7 @@ export const media = pgTable(
 
     // Metadata
     mediaName: text("media_name").notNull(), // Media name
-    mediaSoure: text("media_source").notNull(), // Media source (CNN, BBC, PEXELS, User itself)
+    mediaSource: text("media_source").notNull(), // Media source (CNN, BBC, PEXELS, User itself)
     mediaAttribute: text("media_attribute").notNull(), // Example : Photo by Berkan İyili from Pexels: https://www.pexels.com/photo/tranquil-duck-gliding-on-water-in-antalya-33866528/ or Photo by Berkan Iyili from Public & Press Freedom Organization
     mediaAlt: text("media_alt").notNull(), // Media alt
     uploadedAt: timestamp("uploaded_at", { withTimezone: true })
