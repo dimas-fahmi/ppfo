@@ -53,6 +53,7 @@ export const media = pgTable(
     status: mediaStatusEnum().notNull().default("review"), // Enum: Secure for moderated, review to be moderated by moderator, archived, suspended
     publicity: mediaPublicityEnum().notNull().default("restricted"), // Enum : Public to make the media search able by other users, Restricted to make it only useable by owner and organization members
     isNotSafeForWork: boolean("is_not_safe_for_work").notNull().default(false),
+    isAiGenerated: boolean("is_ai_generated").notNull().default(false),
 
     // Moderation
     moderationMessage: text("moderation_message"),
