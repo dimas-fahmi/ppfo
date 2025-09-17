@@ -25,14 +25,14 @@ export const media = pgTable(
     id: text("id")
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
-    ownerId: uuid("owner_id").references(() => authUsers.id), // Default to uploader if set, can change hands, if set to null owned by public
-    organizationId: uuid("organization_id")
-      .notNull()
-      .references(() => organizations.id), // Organization that manage the media, can change hands
+    ownerId: uuid("owner_id")
+      .references(() => authUsers.id)
+      .notNull(), // Owner ID, can change hands
+    organizationId: uuid("organization_id").references(() => organizations.id), // Organization that manage the media, can change hands
 
     // Metadata
     mediaName: text("media_name").notNull(), // Media name
-    mediaSoure: text("media_source").notNull(), // Media source (CNN, BBC, PEXELS, User itself)
+    mediaSource: text("media_source").notNull(), // Media source (CNN, BBC, PEXELS, User itself)
     mediaAttribute: text("media_attribute").notNull(), // Example : Photo by Berkan İyili from Pexels: https://www.pexels.com/photo/tranquil-duck-gliding-on-water-in-antalya-33866528/ or Photo by Berkan Iyili from Public & Press Freedom Organization
     mediaAlt: text("media_alt").notNull(), // Media alt
     uploadedAt: timestamp("uploaded_at", { withTimezone: true })
@@ -53,6 +53,7 @@ export const media = pgTable(
     status: mediaStatusEnum().notNull().default("review"), // Enum: Secure for moderated, review to be moderated by moderator, archived, suspended
     publicity: mediaPublicityEnum().notNull().default("restricted"), // Enum : Public to make the media search able by other users, Restricted to make it only useable by owner and organization members
     isNotSafeForWork: boolean("is_not_safe_for_work").notNull().default(false),
+    isAiGenerated: boolean("is_ai_generated").notNull().default(false),
 
     // Moderation
     moderationMessage: text("moderation_message"),

@@ -15,6 +15,7 @@ import {
   CloudUpload,
   RotateCcw,
   Image as ImageIcon,
+  LoaderCircle,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,6 +24,10 @@ import { Area } from "react-easy-crop";
 import { useForm } from "react-hook-form";
 import { mediaSchema } from "@/src/lib/zodSchema/mediaSchema";
 import { SpecialInput } from "./components/SpecialInput";
+import { useMutation } from "@tanstack/react-query";
+import { mutateUploadMedia } from "@/src/lib/mutators/mutateUploadMedia";
+import { useRouter } from "next/navigation";
+import { MediaPostRequest } from "@/app/api/media/post";
 
 const MediaNewPageIndex = () => {
   // Form
@@ -142,6 +147,21 @@ const MediaNewPageIndex = () => {
     displaySize = `${kilobytes.toFixed(2)} KB`;
   }
 
+  const router = useRouter();
+
+  const { mutate: upload } = useMutation({
+    mutationFn: mutateUploadMedia,
+    onMutate: () => {
+      setLoading(true);
+    },
+    onSuccess: () => {
+      router.push("/media");
+    },
+    onSettled: () => {
+      setLoading(false);
+    },
+  });
+
   return (
     <div>
       <header className="mb-6">
@@ -160,11 +180,15 @@ const MediaNewPageIndex = () => {
       <form
         className="grid grid-cols-1 gap-4"
         onSubmit={handleSubmit((data) => {
-          console.log(data, blob, loading);
+          if (!data || !blob) return;
+          const request: MediaPostRequest = {
+            ...data,
+            image: blob,
+          };
+
+          upload(request);
         })}
       >
-        {/* Upload Button */}
-
         {/* Image Upload Preview */}
         {preview && (
           <section className="grid mt-6 grid-cols-1 md:grid-cols-2 gap-4">
@@ -366,7 +390,7 @@ const MediaNewPageIndex = () => {
                     type="checkbox"
                     id="publicity"
                     checked={isPublic}
-                    onClick={() => {
+                    onChange={() => {
                       setValue("isPublic", !isPublic);
                     }}
                   />
@@ -394,7 +418,7 @@ const MediaNewPageIndex = () => {
                     type="checkbox"
                     id="aiFlag"
                     checked={isAI}
-                    onClick={() => {
+                    onChange={() => {
                       setValue("isAI", !isAI);
                     }}
                   />
@@ -418,7 +442,7 @@ const MediaNewPageIndex = () => {
                     type="checkbox"
                     id="nsfw"
                     checked={isNSFW}
-                    onClick={() => {
+                    onChange={() => {
                       setValue("isNSFW", !isNSFW);
                     }}
                   />
@@ -443,11 +467,20 @@ const MediaNewPageIndex = () => {
                   type="button"
                   onClick={() => hiddenInputRef?.current?.click()}
                   variant={"outline"}
+                  disabled={loading}
                 >
                   <RotateCcw /> Repick
                 </Button>
-                <Button disabled={!isValid}>
-                  <CloudUpload /> Upload
+                <Button disabled={!isValid || loading}>
+                  {loading ? (
+                    <>
+                      <LoaderCircle className="animate-spin" /> Uploading
+                    </>
+                  ) : (
+                    <>
+                      <CloudUpload /> Upload
+                    </>
+                  )}
                 </Button>
               </div>
             </article>

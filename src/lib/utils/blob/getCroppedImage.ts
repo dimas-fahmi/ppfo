@@ -31,9 +31,21 @@ export const getCroppedImg = async (
     pixelCrop.height
   );
 
+  // Determine the original format or use a sensible default
+  const getMimeType = (src: string): string => {
+    if (src.toLowerCase().endsWith(".png")) return "image/png";
+    if (
+      src.toLowerCase().endsWith(".jpg") ||
+      src.toLowerCase().endsWith(".jpeg")
+    )
+      return "image/jpeg";
+    if (src.toLowerCase().endsWith(".webp")) return "image/webp";
+    return "image/jpeg"; // default to jpeg
+  };
+
   const result = new Promise<{ url: string; blob: Blob }>((resolve, reject) => {
-    const mime = "image/webp";
-    const quality = 1;
+    const mime = getMimeType(imageSrc);
+    const quality = mime === "image/png" ? undefined : 0.4;
     canvas.toBlob(
       (blob) => {
         if (!blob)
